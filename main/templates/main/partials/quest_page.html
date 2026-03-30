@@ -1,0 +1,142 @@
+{# Quest route — children's ministry (QUEST layout; shared cfusion-* styles) #}
+<article class="cfusion-page">
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0 cfusion-page__hero">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div class="cfusion-page__hero-overlay"></div>
+        <div class="container py-4 py-lg-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white cfusion-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="cfusion-page__hero-kicker text-white mt-3 mb-0">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid py-4 py-lg-5 mb-0 cfusion-page__hero cfusion-page__hero--solid">
+        <div class="container py-3 py-lg-4">
+            <h1 class="display-1 text-white cfusion-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="cfusion-page__hero-kicker text-white mt-3 mb-0">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="cfusion-page__main">
+        <div class="container py-4 py-lg-5">
+            <blockquote class="cfusion-page__scripture">
+                <p>&ldquo;Train a child in the way He should go, and when he is old he will not turn from it.&rdquo;</p>
+                <footer>Proverbs 22:6</footer>
+            </blockquote>
+
+            <div class="cfusion-page__intro cfusion-prose">
+                <p><strong>QUEST</strong>, our Children&rsquo;s Ministry, embodies the great adventure of knowing God, discovering His Word and enjoying His people. Here, we seek to draw the young ones into a closer walk with Jesus and to empower them to reveal His love to others along the way. Over the years, we have established a time-honored custom of giving special treatment to children due to the importance they hold as far as future generations are concerned. Our commitment to nurture children of faith is underpinned by the belief that a strong children&rsquo;s ministry translates into a strong social fabric.</p>
+            </div>
+
+            <section class="cfusion-section" aria-labelledby="cfusion-vision">
+                <h2 id="cfusion-vision" class="cfusion-section__title">Our Vision</h2>
+                <p class="cfusion-section__lead">Our vision falls into the general vision of the Nairobi Chapel. We seek to grow Kids <span class="cfusion-accent">D.E.E.P</span> to Reach <span class="cfusion-accent">W.I.D.E</span>, whose acronyms stand for:</p>
+
+                <div class="cfusion-acronym-grid">
+                    <div class="cfusion-acronym-block">
+                        <h3 class="cfusion-acronym-block__label">D.E.E.P</h3>
+                        <ul class="cfusion-acronym-list">
+                            <li><span class="cfusion-letter">D</span><span>Daily reading my Bible</span></li>
+                            <li><span class="cfusion-letter">E</span><span>Enjoying God&rsquo;s people</span></li>
+                            <li><span class="cfusion-letter">E</span><span>Enjoying serving Others</span></li>
+                            <li><span class="cfusion-letter">P</span><span>Promising to do what I learn each Sunday</span></li>
+                        </ul>
+                    </div>
+                    <div class="cfusion-acronym-block">
+                        <h3 class="cfusion-acronym-block__label">W.I.D.E</h3>
+                        <ul class="cfusion-acronym-list">
+                            <li><span class="cfusion-letter">W</span><span>Witness (tell others about Jesus)</span></li>
+                            <li><span class="cfusion-letter">I</span><span>Impact (Change where I am for Jesus)</span></li>
+                            <li><span class="cfusion-letter">D</span><span>Disciple (Help others grow in Jesus)</span></li>
+                            <li><span class="cfusion-letter">E</span><span>Establish churches (Help others find a place to attend church)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cfusion-section cfusion-section--strategy" aria-labelledby="cfusion-strategy">
+                <h2 id="cfusion-strategy" class="cfusion-section__title">Our Strategy</h2>
+                <p class="cfusion-section__lead">We strive to fulfill our vision through the following significant ways:</p>
+                <div class="cfusion-strategy-grid">
+                    <article class="cfusion-strategy-card">
+                        <h3 class="cfusion-strategy-card__title">Partnering with parents</h3>
+                        <p>We believe that the ultimate responsibility for spiritual development of children rests on parents. Our role basically is to work closely with them to complement their efforts and reinforce their spiritual mandate (Deut 4:9). There are however exceptions &mdash; children who come from homes where they don&rsquo;t receive any spiritual nurture. In such cases we work hard to bridge the gap.</p>
+                    </article>
+                    <article class="cfusion-strategy-card">
+                        <h3 class="cfusion-strategy-card__title">The teacher&rsquo;s role</h3>
+                        <p>The Sunday school teacher is to be an evangelist, an encourager, a disciple maker, and an excellent role model for the children. They are to use their spiritual gifts in cooperation with the Holy Spirit to see transformation in the lives of the children.</p>
+                    </article>
+                    <article class="cfusion-strategy-card">
+                        <h3 class="cfusion-strategy-card__title">Bible based programs</h3>
+                        <p>Our Sunday school seeks to be age appropriate, application oriented, and in the context of intentional shepherding and mentoring. Our curriculum is derived from two main sources: Christian Evangelistic Fellowship (CEF) and Jubilee Station from our partner churches. It is usually taught in units which can take as long as 8 weeks depending on the prevailing season (e.g. Easter, Christmas etc).</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="cfusion-section cfusion-section--setup" aria-labelledby="cfusion-setup">
+                <h2 id="cfusion-setup" class="cfusion-section__title cfusion-section__title--banner">Ministry set-up</h2>
+
+                <div class="cfusion-age-grid">
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">Below 2 years</span>
+                        <h3 class="cfusion-age-card__name">Cr&egrave;che</h3>
+                        <p>We have a cr&egrave;che for parents with children below the age of two, which is situated next to Hyperdome or main tent. Here, the parents can keep up with the service through large screen televisions as they nurse their kids in this spacious area. A cr&egrave;che attendant looks after their welfare, serving tea to the parents, and providing toys for the children.</p>
+                    </article>
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">2 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Itibari&rdquo; <span class="cfusion-age-card__swahili">(Faith Buds)</span></h3>
+                        <p>Sunday school basically begins here. The &ldquo;Itibari&rdquo; kids are transitioned from the cr&egrave;che where they are entrusted to the care of Sunday school teachers, who teach, nurse, and keep an eye on them.</p>
+                    </article>
+                    <article class="cfusion-age-card cfusion-age-card--wide">
+                        <h3 class="cfusion-age-card__name cfusion-age-card__name--security">Sign-in &amp; security</h3>
+                        <p>For security reasons, parents are required to sign in their children whenever they bring them to class. Each parent will receive a tag with a number which <strong>must</strong> be presented at the end of the service. Only then will the child be released. We discourage siblings from bringing children to class.</p>
+                    </article>
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">3 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Neema&rdquo; <span class="cfusion-age-card__swahili">(Grace)</span></h3>
+                        <p>This class ministers to the 3 year olds who by now have settled in Sunday School. They are often a very curious lot and generally love their worship and Bible story time. In addition to the regular teacher, we have shepherds who help to care for the children in the two classes: Neema &lsquo;Yellow&rsquo; and &lsquo;Purple&rsquo;.</p>
+                    </article>
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">4 to 5 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Imani&rdquo; <span class="cfusion-age-card__swahili">(Faith)</span></h3>
+                        <p>This is our last class in the NEST, our pre-school Sunday School space. The class is normally large so we divide the Imani class into &lsquo;Blue&rsquo;, &lsquo;Green&rsquo; and &lsquo;Red&rsquo;, allowing us to keep a good teacher-student ratio of 1:10.</p>
+                    </article>
+                </div>
+
+                <div class="cfusion-quest-bridge">
+                    <h3 class="cfusion-quest-bridge__title">QUEST &mdash; older children&rsquo;s space</h3>
+                    <p>When the children turn 6, they then transition to <strong>QUEST</strong>, our older Children&rsquo;s space where they have an in-depth study of the Word of God. A major characteristic of our QUEST space is the large group worship for all the classes, after which the children disperse to their respective classes. Many of our children receive the Lord while in this space, having attained the knowledge of Him from their early days. The children are more participatory in worship, as shepherds to the younger children and serve as ushers and greeters, welcoming others into the service.</p>
+                </div>
+
+                <div class="cfusion-age-grid">
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">6 to 7 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Sifa&rdquo; <span class="cfusion-age-card__swahili">(Praise)</span></h3>
+                        <p>&ldquo;Sifa&rdquo; comprises 6 to 7 year olds who have just graduated from the Imani class. Their curriculum is relatively more advanced than that of Neema and Imani and includes Bible lessons, Scripture Memorization and crafts to reinforce the lesson.</p>
+                    </article>
+                    <article class="cfusion-age-card">
+                        <span class="cfusion-age-card__badge">8 to 9 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Shangwe&rdquo; <span class="cfusion-age-card__swahili">(Jubilant)</span></h3>
+                        <p>This class ministers to the 8 to 9 year old children who have graduated from the Sifa 7 class. Their curriculum is similar to that of the &ldquo;Sifa&rdquo; class.</p>
+                    </article>
+                    <article class="cfusion-age-card cfusion-age-card--span">
+                        <span class="cfusion-age-card__badge">10 to 11 year olds</span>
+                        <h3 class="cfusion-age-card__name">&ldquo;Johari&rdquo; <span class="cfusion-age-card__swahili">(Jewel)</span></h3>
+                        <p>&ldquo;Johari&rdquo;, or Jewel, is the summit of the Sunday school experience. We realize that transitions are beginning at this age and to minister effectively to the needs of this age group, the classes are divided by gender. The female teachers walk with the girls while the male teachers provide godly mentoring to the boys. At this point the 10 to 11 year old children are taught various lessons including Water Baptism and the significance of Holy Communion. At the end, they take part in these exercises. In addition, they get a take home devotional which coincides with their Sunday lessons for them to go through during the week. After graduation, the Johari children progress to the Youth Ministry&rsquo;s &ldquo;GUZA&rdquo; class.</p>
+                    </article>
+                </div>
+            </section>
+
+            {% if cta_text and cta_url %}
+            <div class="text-center mt-5 pt-3">
+                <a href="{{ cta_url }}" class="btn cfusion-page__cta py-3 px-5">{{ cta_text }}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,62 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="Give">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">Give</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Give</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="give-page py-4 py-lg-5">
+        <div class="container">
+            <div class="row g-4 g-lg-5 align-items-start">
+                <div class="col-lg-6 give-page__info">
+                    {% if page_copy %}
+                    <p class="give-page__eyebrow">{{ page_copy.heading }}</p>
+                    <h2 class="give-page__title">{{ page_copy.subheading }}</h2>
+                    <div class="give-page__body">{{ page_copy.body|linebreaks }}</div>
+                    {% else %}
+                    <p class="give-page__eyebrow">Partner with us</p>
+                    <h2 class="give-page__title">Your giving makes a difference</h2>
+                    <div class="give-page__body">
+                        <p>Thank you for supporting Nairobi Chapel Ngong Hills. Your gifts help us share God&rsquo;s love through worship, community, and outreach.</p>
+                        <p>You can give through M-Pesa, bank transfer, or in person during our services. Use the form to tell us about your gift; our team will follow up with payment details or you can complete checkout when online giving is enabled.</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6">
+                    <div class="give-page__form-card">
+                        <h3 class="give-page__form-title">Make a gift</h3>
+                        <p class="give-page__form-lead">Fill in your details below. You will be able to complete checkout in the next step.</p>
+                        <form method="post" action="{% url 'give' %}" class="give-page__form">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="give-name" class="form-label give-page__label">Name</label>
+                                <input type="text" class="form-control give-page__input" id="give-name" name="name" required autocomplete="name" placeholder="Your full name" value="{{ give_form.name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="give-reason" class="form-label give-page__label">Reason for giving</label>
+                                <textarea class="form-control give-page__input" id="give-reason" name="reason" rows="4" required placeholder="e.g. Tithe, thanksgiving, building fund…">{{ give_form.reason }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="give-amount" class="form-label give-page__label">Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text give-page__input-addon" id="give-currency">KES</span>
+                                    <input type="number" class="form-control give-page__input" id="give-amount" name="amount" required min="1" step="1" inputmode="decimal" placeholder="0" aria-describedby="give-currency" value="{{ give_form.amount }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-3 give-page__checkout">Checkout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

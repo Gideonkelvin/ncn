@@ -1,0 +1,21 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# After deploy: create a PostgreSQL instance, copy its Internal Database URL into
+# Environment → DATABASE_URL, and set CSRF_TRUSTED_ORIGINS to your https://<service>.onrender.com
+services:
+  - type: web
+    name: rose-django
+    runtime: python
+    plan: starter
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn rose_project.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      # Add in Render dashboard after first deploy:
+      # DATABASE_URL  (from PostgreSQL resource → Internal Database URL)
+      # CSRF_TRUSTED_ORIGINS  (e.g. https://rose-django.onrender.com)
+    healthCheckPath: /

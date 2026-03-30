@@ -1,0 +1,49 @@
+{% extends "main/dashboard/base_dashboard.html" %}
+{% block title %}Dashboard Home{% endblock %}
+{% block content %}
+<h1 style="margin: 0 0 1.5rem 0; font-size: 1.5rem;">Overview</h1>
+<p style="color: #666; margin-bottom: 1.5rem;">Edit home content and each site page from the sidebar. Fixed-route pages (About, Pastorate, Quest, …) each have their own admin entry; use <strong>Other site pages</strong> for extra URLs.</p>
+<div class="grid">
+    <div class="card">
+        <div class="card-title">Home — Hero slides</div>
+        <div class="card-value purple">{{ hero_count }}</div>
+        <a href="{% url 'admin:main_heroslide_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Home — Services</div>
+        <div class="card-value teal">{{ services_count }}</div>
+        <a href="{% url 'admin:main_service_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Home — What we do</div>
+        <div class="card-value teal">{{ what_we_do_count }}</div>
+        <a href="{% url 'admin:main_whatwedoitem_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Home — Events</div>
+        <div class="card-value green">{{ events_count }}</div>
+        <a href="{% url 'admin:main_event_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Site pages (all active)</div>
+        <div class="card-value purple">{{ site_pages_total }}</div>
+        <span style="font-size: 0.85rem; color: #666;">Use sidebar for each page.</span>
+    </div>
+    <div class="card">
+        <div class="card-title">Other site pages (custom slugs)</div>
+        <div class="card-value green">{{ other_site_pages_count }}</div>
+        <a href="{% url 'admin:main_othersitepage_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Page copy (contact, give, …)</div>
+        <div class="card-value green">{{ page_copies_count }}</div>
+        <a href="{% url 'admin:main_pagecopy_changelist' %}" class="btn-dash">Edit</a>
+    </div>
+    <div class="card">
+        <div class="card-title">Unread contact messages</div>
+        <div class="card-value red">{{ contact_submissions_count }}</div>
+        <a href="{% url 'admin:main_contactsubmission_changelist' %}" class="btn-dash">View</a>
+    </div>
+</div>
+<p style="font-size: 0.9rem; color: #888;">Images: Cloudinary URLs or uploads per field. <code>.env</code>: CLOUDINARY_* variables.</p>
+{% endblock %}

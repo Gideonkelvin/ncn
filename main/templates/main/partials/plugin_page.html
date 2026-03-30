@@ -1,0 +1,69 @@
+{# Plug-In ministry page — hero from CMS + long-form content #}
+<article class="plugin-page">
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0 plugin-page__hero">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div class="plugin-page__hero-overlay"></div>
+        <div class="container py-4 py-lg-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white plugin-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3 mb-0 plugin-page__hero-sub">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-4 py-lg-5 mb-0 plugin-page__hero plugin-page__hero--solid">
+        <div class="container py-3 py-lg-4">
+            <h1 class="display-1 text-white plugin-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3 mb-0 plugin-page__hero-sub">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="plugin-page__body py-4 py-lg-5">
+        <div class="container">
+            <header class="plugin-page__intro">
+                <p class="plugin-page__lead">We desire that you will not only attend church on Sunday, but get the opportunity to live out what the Bible says. When you discover the word of God, you become an agent of change and impact others around you. Welcome to Plug-In, our 10 week experience.</p>
+            </header>
+
+            <section class="plugin-page__section" aria-labelledby="plugin-about">
+                <h2 id="plugin-about" class="visually-hidden">About Plug-In</h2>
+                <div class="plugin-page__prose">
+                    <p><strong>Plug-In</strong> is about connecting to God. It is not just for Christians, but is an experience for everyone who needs to embark on the journey of understanding God&rsquo;s purpose for them. During this incredible 10 week experience, we seek to know God through His Word and our wrong perceptions of Him begin to be sensitively addressed. Plug-In is about true community where deep bonding and lifelong friendships are often developed. Plug-In is about knowing God and His purpose for your life.</p>
+                </div>
+            </section>
+
+            <section class="plugin-page__objectives" aria-labelledby="plugin-objectives-heading">
+                <h2 id="plugin-objectives-heading" class="plugin-page__objectives-title">10 Weeks &ndash; 4 Objectives!</h2>
+                <ol class="plugin-page__objective-list">
+                    <li class="plugin-page__objective">
+                        <h3 class="plugin-page__objective-heading">Connect you to God</h3>
+                        <p>As you spend an hour a day in reflection, Bible study, prayer and journaling.</p>
+                    </li>
+                    <li class="plugin-page__objective">
+                        <h3 class="plugin-page__objective-heading">Connect you to Community</h3>
+                        <p>Through the shared experience, you get to know and bond with members of your group at a deeper level during the meetings and Saturday activities.</p>
+                    </li>
+                    <li class="plugin-page__objective">
+                        <h3 class="plugin-page__objective-heading">Connect you to Church</h3>
+                        <p>Discover your spiritual gifts and abilities and get to use them through a 6 month internship after graduation. This internship will be in line with your gifts and skills &ndash; if you are hospitable, you are invited to serve as a greeter or usher; if you are passionate about justice then you can serve the marginalized and less fortunate in our Frontline Ministries. You also get to engage in our adult, youth and children&rsquo;s ministries if this is in line with your gifts.</p>
+                    </li>
+                    <li class="plugin-page__objective">
+                        <h3 class="plugin-page__objective-heading">Connect you to Destiny</h3>
+                        <p>Each one of us is seeking our purpose and we have a deep desire to know how we can engage meaningfully to make a difference in this life and possibly leave a legacy for the next generation.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="plugin-page__section plugin-page__how" aria-labelledby="plugin-how-heading">
+                <h2 id="plugin-how-heading" class="plugin-page__h2">How does Plug-In work?</h2>
+                <div class="plugin-page__prose">
+                    <p>Every year we organise 3 Plug-In Seasons each spanning across 10 weeks. The Plug-In experience is made up of a big group of congregants, numbering up to 250 in every season.</p>
+                    <p>This large group is broken down into smaller groups of 6 to 15 people, primarily based on the geographical location of their homes, to make it easy for each person to conveniently participate. Each of these small groups is led by two facilitators who guide members as they engage with God, Community, Church and Destiny. The small groups meet once a week (at a location convenient to each group) for two hours to share and explore what they have studied over a cup of tea and other refreshments. There are 3 weekend activities and the experience culminates in a retreat at the tail end. 80% attendance is required for one to successfully complete the Plug-In experience.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</article>

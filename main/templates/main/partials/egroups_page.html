@@ -1,0 +1,70 @@
+{# eGroups — hero from CMS + styled long-form content #}
+<article class="egroups-page">
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0 egroups-page__hero">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-4 py-lg-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown egroups-page__title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3 mb-0 egroups-page__subtitle">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-4 py-lg-5 mb-0 wow fadeIn egroups-page__hero" data-wow-delay="0.1s">
+        <div class="container py-3 py-lg-4">
+            <h1 class="display-1 text-white animated slideInDown egroups-page__title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3 mb-0 egroups-page__subtitle">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="egroups-page__body py-4 py-lg-5">
+        <div class="container">
+            <div class="egroups-page__intro">
+                <p class="egroups-page__lead">The body of Christ at Nairobi Chapel is discipled through Small Groups – eGroups, for members to become Faithful Followers of Christ and in turn, through active engagement of their gifts to become effective Fishers of men.</p>
+                <p>Our eGroups meet throughout the week at different locations. They are designed to help you build healthy relationships with others in a safe environment while growing spiritually.</p>
+                <p class="mb-0"><strong>eGroups is where the life of the church really happens.</strong> At Nairobi Chapel, our eGroup Ministry lays emphasis on four vital areas that promote a church&rsquo;s growth and well being. We call these the &lsquo;ABCDEs&rsquo; of an eGroup&rsquo;s Life;</p>
+            </div>
+
+            <div class="egroups-page__pillars">
+                <section class="egroups-pillar" aria-labelledby="egroups-accountability">
+                    <h2 id="egroups-accountability" class="egroups-pillar__label">Accountability</h2>
+                    <div class="egroups-pillar__text">
+                        <p class="mb-0">Accountability is about openness in healthy relationships, work and areas of weakness, devotion to God and all other aspects of life. Members are to counsel, remind, admonish, pray and provoke one another to living their lives as God intended; not just in public life but in private too.</p>
+                    </div>
+                </section>
+
+                <section class="egroups-pillar" aria-labelledby="egroups-belonging">
+                    <h2 id="egroups-belonging" class="egroups-pillar__label">Belonging</h2>
+                    <div class="egroups-pillar__text">
+                        <p class="mb-0">With limited time for Sunday interaction, one may not easily connect with other believers. In our small groups we: pray, eat, love, cry and laugh together. Our eGroups seek to draw people into a community where faith and life meet and grow. We want each of our members to come to the place where they can confidently say, &ldquo;This is my family&rdquo; when referring to their eGroup.</p>
+                    </div>
+                </section>
+
+                <section class="egroups-pillar" aria-labelledby="egroups-care">
+                    <h2 id="egroups-care" class="egroups-pillar__label">Care</h2>
+                    <div class="egroups-pillar__text">
+                        <p class="mb-0">Christians are called to be like Jesus, caring for the hurt &amp; injured members of the body of Christ and sharing the Good News. Our eGroups give pastoral care to members in different life stages e.g. birth of a new child, bereavement, weddings, family transitions and illnesses etc. It is in this family that one finds the quickest response to their needs from people who will continually surround and care for them long after the event has happened.</p>
+                    </div>
+                </section>
+
+                <section class="egroups-pillar" aria-labelledby="egroups-discipleship">
+                    <h2 id="egroups-discipleship" class="egroups-pillar__label">Discipleship</h2>
+                    <div class="egroups-pillar__text">
+                        <p class="mb-0">eGroups are our strongest avenue for discipleship and transformation. They complement our Sunday Services by providing an informal and relaxed atmosphere that allows people to actively live out the gospel. It is in our eGroups that members ask, &ldquo;How can we apply the Sunday teachings to our lives?&rdquo; Through authentic discussions that require accountability and follow-up, we are able to nurture one another to spiritual maturity through our eGroups.</p>
+                    </div>
+                </section>
+            </div>
+
+            {% if cta_text and cta_url %}
+            <div class="egroups-page__cta text-center mt-4 mt-lg-5 pt-4">
+                <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5">{{ cta_text }}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</article>

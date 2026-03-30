@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ meta_title|default:site_settings.site_name }}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="church, Nairobi Chapel, Ngong Hills, faith, Christian, worship, ministry, Kenya">
+    <meta name="description" content="{% block meta_description %}{{ meta_description|default:'Welcome to Nairobi Chapel Ngong Hills - A community of faith, love and purpose.' }}{% endblock %}">
+    <link href="/img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Teko:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- Prefetch critical resources for faster navigation -->
+    <link rel="prefetch" href="/">
+    <link rel="prefetch" href="/about">
+    <link rel="prefetch" href="{% url 'give' %}">
+    <style>
+        /* Single navbar/footer shade (avoid #000 vs #181818 mismatch) */
+        .navbar.navbar-expand-lg.navbar-dark {
+            background-color: #181818 !important;
+            background-image: none !important;
+        }
+        /* Hamburger: no stray line between bar and open menu; calm focus state */
+        .navbar-toggler {
+            margin-left: 15px;
+            z-index: 1050;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 0.375rem;
+            padding: 0.45rem 0.55rem;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+        .navbar-toggler:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        .navbar-toggler:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.45);
+            outline-offset: 2px;
+        }
+        .navbar-collapse {
+            z-index: 1040;
+            position: relative;
+            background-color: #181818 !important;
+        }
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                margin-top: 0 !important;
+                padding: 0.75rem 0 1rem;
+                border-top: none !important;
+                box-shadow: none !important;
+            }
+            .navbar-brand {
+                z-index: 1050;
+            }
+        }
+        .footer {
+            background-color: #181818 !important;
+        }
+        .footer .btn-link {
+            padding: 0;
+            margin-bottom: 8px;
+            color: #fff !important;
+            font-weight: normal;
+            text-transform: none;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .footer .btn-link:hover {
+            color: #fff !important;
+            text-decoration: underline;
+        }
+        .footer .btn.btn-link::before {
+            display: none !important;
+        }
+        .footer h3 {
+            color: #FFD700 !important;
+        }
+        .footer-logo-wrapper img {
+            filter: brightness(0) invert(1);
+        }
+        .navbar-brand-icon {
+            max-height: 40px;
+            width: auto;
+        }
+        .nav-item.nav-link.text-white:hover {
+            color: #fff !important;
+            text-decoration: underline;
+        }
+        .footer-logo-mobile img {
+            filter: brightness(0) invert(1);
+        }
+        .footer p {
+            color: #fff !important;
+        }
+        .footer .copyright {
+            background-color: #181818 !important;
+            color: rgba(255,255,255,0.7) !important;
+        }
+        /* Dropdown menu styling */
+        .dropdown-menu-dark {
+            background-color: #181818 !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        .dropdown-menu-dark .dropdown-item {
+            color: #fff !important;
+        }
+        .dropdown-menu-dark .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="z-index: 1030;">
+        <div class="container">
+        <a href="/" class="navbar-brand d-flex align-items-center py-2">
+            {% if site_settings.logo_url %}
+            <img src="{{ site_settings.logo_url }}" alt="{{ site_settings.site_name }}" class="navbar-brand-icon">
+            {% else %}
+            <span class="navbar-brand-icon-fallback"><i class="bi bi-church" aria-hidden="true"></i></span>
+            <span class="navbar-brand-text ms-2 d-none d-md-inline">{{ site_settings.site_name|default:"Nairobi Chapel Ngong Hills" }}</span>
+            {% endif %}
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                {% if dynamic_nav.about %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">About</a>
+                    <div class="dropdown-menu dropdown-menu-dark bg-black border-0 rounded-0">
+                        {% for page in dynamic_nav.about %}
+                        <a href="{{ page.url }}" class="dropdown-item text-white">{{ page.title }}</a>
+                        {% endfor %}
+                        <a href="/contact" class="dropdown-item text-white">Contact</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if dynamic_nav.ministries %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">Ministries</a>
+                    <div class="dropdown-menu dropdown-menu-dark bg-black border-0 rounded-0">
+                        {% for page in dynamic_nav.ministries %}
+                        <a href="{{ page.url }}" class="dropdown-item text-white">{{ page.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if dynamic_nav.resources %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">Resources</a>
+                    <div class="dropdown-menu dropdown-menu-dark bg-black border-0 rounded-0">
+                        {% for page in dynamic_nav.resources %}
+                        <a href="{{ page.url }}" class="dropdown-item text-white">{{ page.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if dynamic_nav.engage %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">Engage</a>
+                    <div class="dropdown-menu dropdown-menu-dark bg-black border-0 rounded-0">
+                        {% for page in dynamic_nav.engage %}
+                        <a href="{{ page.url }}" class="dropdown-item text-white">{{ page.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <a href="{% url 'give' %}" class="nav-item nav-link text-white {% if request.resolver_match.url_name == 'give' %}active{% endif %}">Give</a>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="container py-2">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="content-wrapper">{% block content %}{% endblock %}</div>
+
+    <div class="container-fluid text-white footer pt-5 px-0 wow fadeIn" data-wow-delay="0.1s" style="background-color: #181818;">
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Location Section -->
+                <div class="col-lg-4 col-md-6">
+                    <h3 class="text-white mb-4" style="text-transform: uppercase; letter-spacing: 2px; font-size: 18px;">Location</h3>
+                    <p class="mb-2 text-white"><strong>Church Physical Address:</strong><br>Ngong, Suswa Road.</p>
+                    <p class="mb-3 text-white"><strong>Office Location:</strong><br> Link Road, Kibiko</p>
+                    {% if site_settings.youtube_url or site_settings.instagram_url or site_settings.facebook_url %}
+                    <div class="footer-social-icons" role="navigation" aria-label="Social media">
+                        {% if site_settings.youtube_url %}
+                        <a href="{{ site_settings.youtube_url }}" class="footer-social-icons__link" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                        {% endif %}
+                        {% if site_settings.instagram_url %}
+                        <a href="{{ site_settings.instagram_url }}" class="footer-social-icons__link" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        {% endif %}
+                        {% if site_settings.facebook_url %}
+                        <a href="{{ site_settings.facebook_url }}" class="footer-social-icons__link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Get in Touch Section -->
+                <div class="col-lg-4 col-md-6">
+                    <h3 class="text-white mb-4" style="text-transform: uppercase; letter-spacing: 2px; font-size: 18px;">Get in Touch</h3>
+                    <p class="mb-2 text-white">P.O. Box 52635 – 00200<br>Nairobi, Kenya.</p>
+                    <p class="mb-2 text-white"><i class="fa fa-envelope text-white me-2"></i>info@ncngonghills.org</p>
+                    <p class="mb-2 text-white"><i class="fa fa-phone text-white me-2"></i>+254 797 559118</p>
+                    <p class="mb-0 text-white"><i class="fab fa-whatsapp text-white me-2"></i>+254 797 559118</p>
+                </div>
+                
+                <!-- MPesa Paybill -->
+                <div class="col-lg-4 col-md-12">
+                    <h3 class="text-white mb-4" style="text-transform: uppercase; letter-spacing: 2px; font-size: 18px;">MPesa Paybill</h3>
+                    <p class="mb-2 text-white"><strong>Paybill Number:</strong> 867509</p>
+                    <p class="mb-0 text-white"><strong>Account:</strong> Indicate the reason for giving (Tithe, Offering, Quest, Development, etc.)</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid copyright bg-black py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p class="mb-0 text-white-50">&copy; <a href="/" class="text-white">{{ site_settings.footer_copyright|default:"2026 Nairobi Chapel Ngong Hills. All rights reserved." }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/counterup/counterup.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,313 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+{% if page_name == "sermon" %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+{% elif page_name == "egroups" %}
+    {% include "main/partials/egroups_page.html" %}
+{% elif page_name == "prayer" or page_name == "plug-in" %}
+    {% include "main/partials/plugin_page.html" %}
+{% elif page_name == "quest" %}
+    {% include "main/partials/quest_page.html" %}
+{% elif page_name == "club-fusion" %}
+    {% include "main/partials/club_fusion_page.html" %}
+{% elif page_name == "pastoral" %}
+    {% include "main/partials/pastoral_page.html" %}
+{% elif page_name == "membership" %}
+    {% include "main/partials/membership_page.html" %}
+{% elif page_name == "womens-ministry" %}
+    {% include "main/partials/womens_ministry_page.html" %}
+{% elif page_name == "mens-ministry" %}
+    {% include "main/partials/mens_ministry_page.html" %}
+{% elif page_name == "volunteer" %}
+    {% include "main/partials/volunteer_page.html" %}
+{% elif page_name == "bible-study" %}
+    {% include "main/partials/bible_study_page.html" %}
+{% else %}
+
+{# DEFAULT TEMPLATE - Image Left, Content Right #}
+{% if template == "default" %}
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 order-1 order-lg-2 wow fadeIn" data-wow-delay="0.5s">
+                    {% if header_text %}
+                    <h4 class="section-title">Welcome</h4>
+                    <h2 class="display-5 mb-4">{{ page_title }}</h2>
+                    <div class="mb-4">{{ header_text|linebreaks }}</div>
+                    {% endif %}
+                    {% if content %}
+                    <div class="content">{{ content|safe }}</div>
+                    {% endif %}
+                    {% if cta_text %}
+                    <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+                    {% endif %}
+                    {% if cta_text_2 %}
+                    <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-2">{{ cta_text_2 }}</a>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 wow fadeIn" data-wow-delay="0.1s">
+                    {% if image_url %}
+                    <img class="img-fluid w-100" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}" style="object-fit: cover;">
+                    {% else %}
+                    <img class="img-fluid w-100" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="{{ page_title }}" style="object-fit: cover;">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{# FULL WIDTH - Hero Image with Overlay #}
+{% elif template == "full_width" %}
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            {% if header_text %}
+            <div class="mb-4">{{ header_text|safe }}</div>
+            {% endif %}
+            {% if content %}
+            <div class="content">{{ content|safe }}</div>
+            {% endif %}
+            {% if cta_text %}
+            <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+            {% endif %}
+            {% if cta_text_2 %}
+            <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-2">{{ cta_text_2 }}</a>
+            {% endif %}
+        </div>
+    </div>
+
+{# CONTENT ONLY - No Image #}
+{% elif template == "content_only" %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            {% if header_text %}
+            <div class="mb-4">{{ header_text|safe }}</div>
+            {% endif %}
+            {% if content %}
+            <div class="content">{{ content|safe }}</div>
+            {% endif %}
+            {% if cta_text %}
+            <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+            {% endif %}
+            {% if cta_text_2 %}
+            <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-2">{{ cta_text_2 }}</a>
+            {% endif %}
+        </div>
+    </div>
+
+{# SPLIT - Two Column Layout #}
+{% elif template == "split" %}
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    {% if header_text %}
+                    <h4 class="section-title">About</h4>
+                    <h2 class="display-5 mb-4">{{ page_title }}</h2>
+                    <div class="mb-4">{{ header_text|safe }}</div>
+                    {% endif %}
+                    {% if content %}
+                    <div class="content">{{ content|safe }}</div>
+                    {% endif %}
+                    {% if cta_text %}
+                    <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.3s">
+                    {% if content_2 %}
+                    <div class="mb-4">{{ content_2|safe }}</div>
+                    {% endif %}
+                    {% if cta_text_2 %}
+                    <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4">{{ cta_text_2 }}</a>
+                    {% endif %}
+                    {% if image_url %}
+                    <img class="img-fluid w-100 mt-4" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}" style="object-fit: cover;">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{# CENTERED - Text Centered with Image Below #}
+{% elif template == "centered" %}
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center">
+                {% if header_text %}
+                <div class="mb-4">{{ header_text|safe }}</div>
+                {% endif %}
+                {% if content %}
+                <div class="content">{{ content|safe }}</div>
+                {% endif %}
+                {% if cta_text %}
+                <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+                {% endif %}
+                {% if cta_text_2 %}
+                <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-2">{{ cta_text_2 }}</a>
+                {% endif %}
+            </div>
+            {% if image_url %}
+            <div class="mt-5">
+                <img class="img-fluid w-100" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}" style="object-fit: cover;">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{# Default fallback #}
+{% else %}
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="text-white mt-3">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if sermon_youtube_videos is not None %}
+    {% include "main/partials/sermon_youtube_section.html" %}
+    {% endif %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            {% if content %}
+            <div class="content">{{ content|safe }}</div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{# Men's Ministry: desktop = text left + 4 polaroids (duplicated pair); mobile = text, pair, text, pair #}
+{% with top_img=image_url|default:"https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" bottom_img="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774086291/people-meeting-seminar-office-concept_vvrhtg.jpg" %}
+<div class="container-xxl py-5 mens-ministry-page">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-start">
+            <div class="col-lg-6 mens-ministry-page__text wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="display-5 mb-4 mens-ministry-page__heading" id="mens-ministry">{{ page_title }}</h1>
+                {% if content_2 %}
+                {% if content %}
+                <div class="content mens-ministry-page__body">{{ content|safe }}</div>
+                {% endif %}
+                <div class="d-lg-none mens-ministry-page__mobile-collage text-center my-4">
+                    {% include "main/partials/mens_ministry_polaroid_pair.html" %}
+                </div>
+                <div class="content mens-ministry-page__body">{{ content_2|safe }}</div>
+                <div class="d-lg-none mens-ministry-page__mobile-collage text-center my-4">
+                    {% include "main/partials/mens_ministry_polaroid_pair.html" %}
+                </div>
+                {% else %}
+                {% if content %}
+                <div class="content mens-ministry-page__body">{{ content|safe }}</div>
+                {% endif %}
+                <div class="d-lg-none mens-ministry-page__mobile-quad-row my-4">
+                    <div class="mens-ministry-page__mobile-collage">{% include "main/partials/mens_ministry_polaroid_pair.html" %}</div>
+                    <div class="mens-ministry-page__mobile-collage">{% include "main/partials/mens_ministry_polaroid_pair.html" %}</div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 d-none d-lg-block mens-ministry-page__media mens-ministry-page__media--desktop wow fadeIn" data-wow-delay="0.15s">
+                <div class="mens-ministry-desktop-quad" role="group" aria-label="Men&#8217;s ministry photos">
+                    <div class="mens-ministry-desktop-quad__cell">
+                        {% include "main/partials/mens_ministry_polaroid_pair.html" %}
+                    </div>
+                    <div class="mens-ministry-desktop-quad__cell">
+                        {% include "main/partials/mens_ministry_polaroid_pair.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

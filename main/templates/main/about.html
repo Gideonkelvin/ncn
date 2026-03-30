@@ -1,0 +1,70 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">About Us</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">About</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    {% for section in sections %}
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                {% if section.slug == "founder_vision" %}
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="about-img">
+                        {% if section.image_1_url %}<img class="img-fluid" src="{{ section.image_1_url }}" alt="Rose Coloured Lens founder">{% endif %}
+                        {% if section.image_2_url %}<img class="img-fluid" src="{{ section.image_2_url }}" alt="Visual inclusion work">{% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h4 class="section-title">{{ section.heading }}</h4>
+                    <h2 class="display-5 mb-4">{{ section.subheading }}</h2>
+                    <p>{{ section.body|linebreaksbr }}</p>
+                    {% if section.body_extra %}<h3 class="mb-3">Our Vision</h3><p class="mb-4">{{ section.body_extra }}</p>{% endif %}
+                    {% if section.cta_text %}<a class="btn btn-primary py-3 px-5" href="{{ section.cta_url }}">{{ section.cta_text }}</a>{% endif %}
+                </div>
+                {% elif section.slug == "mission" %}
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title">{{ section.heading }}</h4>
+                    <h2 class="display-5 mb-4">{{ section.subheading }}</h2>
+                    <p class="mb-4">{{ section.body }}</p>
+                    <ul class="list-unstyled">
+                        {% for bullet in section.bullets.all %}<li class="mb-3"><i class="fa fa-check text-primary me-3"></i>{{ bullet.title }}</li>{% endfor %}
+                    </ul>
+                    {% if section.cta_text %}<a class="btn btn-primary py-3 px-5 mt-3" href="{{ section.cta_url }}">{{ section.cta_text }}</a>{% endif %}
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="feature-img">
+                        {% if section.image_1_url %}<img class="img-fluid" src="{{ section.image_1_url }}" alt="Visual health education">{% endif %}
+                        {% if section.image_2_url %}<img class="img-fluid" src="{{ section.image_2_url }}" alt="Advocacy and community">{% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
+                    <h4 class="section-title">{{ section.heading }}</h4>
+                    <h2 class="display-5 mb-4">{{ section.subheading }}</h2>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="text-justify mb-4">{{ section.body|linebreaksbr }}</p>
+                    <div class="text-center text-lg-start mt-4">{% if section.cta_text %}<a href="{{ section.cta_url }}" class="btn btn-primary py-3 px-5">Book a Session</a>{% endif %}</div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h3 class="mb-4">Speaking Topics</h3>
+                    <p class="text-justify mb-4">{{ section.body_extra|linebreaksbr }}</p>
+                    <ul class="list-unstyled">
+                        {% for bullet in section.bullets.all %}<li class="mb-3"><i class="fa fa-check text-primary me-3"></i>{{ bullet.title }}</li>{% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

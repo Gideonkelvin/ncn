@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Dashboard{% endblock %} | Nairobi Chapel Ngong Hive</title>
+    <style>
+        :root { --red: #BE1E3C; --orange: #F25C2A; --yellow: #F4A62A; --pink: #D9619B; --purple: #64348A; --green: #39A845; --teal: #2CA79B; --black: #2B2424; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #f1f3f5; color: var(--black); }
+        .sidebar { background: var(--black); color: #fff; min-height: 100vh; width: 280px; position: fixed; left: 0; top: 0; z-index: 100; overflow-y: auto; }
+        .sidebar .brand { padding: 1.25rem 1.5rem; font-weight: 700; font-size: 1.05rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar .nav-section { padding: 0.5rem 1rem 0.25rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); }
+        .sidebar nav a { color: rgba(255,255,255,0.88); text-decoration: none; display: flex; align-items: center; padding: 0.55rem 1.5rem; border-left: 3px solid transparent; transition: 0.2s; font-size: 0.9rem; }
+        .sidebar nav a:hover { background: rgba(255,255,255,0.06); color: #fff; border-left-color: var(--teal); }
+        .main-wrap { margin-left: 280px; padding: 1.5rem; min-height: 100vh; }
+        .topbar { background: #fff; margin: -1.5rem -1.5rem 1.5rem -1.5rem; padding: 0.875rem 1.5rem; box-shadow: 0 1px 0 rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; }
+        .topbar a { color: var(--teal); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem; margin-bottom: 1.25rem; transition: 0.2s; }
+        .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .card-title { font-size: 0.85rem; color: #666; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.03em; }
+        .card-value { font-size: 1.75rem; font-weight: 700; }
+        .card-value.purple { color: var(--purple); }
+        .card-value.teal { color: var(--teal); }
+        .card-value.green { color: var(--green); }
+        .card-value.orange { color: var(--orange); }
+        .card-value.red { color: var(--red); }
+        .btn-dash { background: var(--purple); color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; display: inline-block; font-size: 0.9rem; margin-top: 0.75rem; transition: 0.2s; }
+        .btn-dash:hover { background: var(--teal); color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">Nairobi Chapel Ngong Hive</div>
+        <nav>
+            <a href="{% url 'admin:index' %}">Django Admin</a>
+            <div class="nav-section">Home</div>
+            <a href="{% url 'admin:main_sitesettings_changelist' %}">Site settings</a>
+            <a href="{% url 'admin:main_heroslide_changelist' %}">Hero slides</a>
+            <a href="{% url 'admin:main_service_changelist' %}">Service cards (home)</a>
+            <a href="{% url 'admin:main_whatwedoitem_changelist' %}">What we do</a>
+            <a href="{% url 'admin:main_aboutpreview_changelist' %}">About preview</a>
+            <a href="{% url 'admin:main_founderpurposeblock_changelist' %}">Founder &amp; purpose</a>
+            <a href="{% url 'admin:main_calltoactionblock_changelist' %}">Call to action</a>
+            <a href="{% url 'admin:main_event_changelist' %}">Events</a>
+            <div class="nav-section">Site pages</div>
+            <a href="{% url 'admin:main_aboutpage_changelist' %}">About</a>
+            <a href="{% url 'admin:main_pastoralcarepage_changelist' %}">Pastorate</a>
+            <a href="{% url 'admin:main_pastoralteamsection_changelist' %}">Pastorate · team sections (×6)</a>
+            <a href="{% url 'admin:main_egroupspage_changelist' %}">E-Groups</a>
+            <a href="{% url 'admin:main_prayerpage_changelist' %}">Plug-In (/prayer)</a>
+            <a href="{% url 'admin:main_clubfusionpage_changelist' %}">Club Fusion</a>
+            <a href="{% url 'admin:main_questpage_changelist' %}">Quest</a>
+            <a href="{% url 'admin:main_sermonpage_changelist' %}">Sermon</a>
+            <a href="{% url 'admin:main_biblestudypage_changelist' %}">Bible study</a>
+            <a href="{% url 'admin:main_biblestudyresource_changelist' %}">Bible study · resource table</a>
+            <a href="{% url 'admin:main_membershippage_changelist' %}">Membership</a>
+            <a href="{% url 'admin:main_volunteerpage_changelist' %}">Volunteer</a>
+            <a href="{% url 'admin:main_othersitepage_changelist' %}">Other site pages</a>
+            <div class="nav-section">Blog &amp; shop</div>
+            <a href="{% url 'admin:main_blogcategory_changelist' %}">Blog categories</a>
+            <a href="{% url 'admin:main_blogpost_changelist' %}">Blog posts</a>
+            <a href="{% url 'admin:main_product_changelist' %}">Shop products</a>
+            <div class="nav-section">Other</div>
+            <a href="{% url 'admin:main_pagecopy_changelist' %}">Page copy</a>
+            <a href="{% url 'admin:main_contactsubmission_changelist' %}">Contact messages</a>
+            <a href="/">View site</a>
+        </nav>
+    </aside>
+    <div class="main-wrap">
+        <div class="topbar">
+            <span>Dashboard</span>
+            <a href="{% url 'dashboard_logout' %}">Sign out</a>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{# /pastoral/ — hero + up to six team blocks, alternating text|image columns on large screens #}
+<div class="container-fluid page-header page-header--hero-image mb-0">
+    <img class="page-header__hero-img" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="{{ page_title }} — Nairobi Chapel Ngong Hills">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+    <div class="container py-5 position-relative" style="z-index: 1;">
+        <h1 class="display-1 text-white animated slideInDown">{{ page_title }}</h1>
+        {% if page_subtitle %}
+        <p class="text-white mt-3">{{ page_subtitle }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container-xxl py-5 pastoral-team-page">
+    <div class="container">
+        {% for section in pastoral_sections %}
+        <section class="pastoral-team-section mb-5 pb-5 {% if not forloop.last %}pastoral-team-section--divider{% endif %}" aria-labelledby="pastoral-section-{{ section.id }}">
+            <div class="row g-5 align-items-start">
+                {% if forloop.counter|divisibleby:2 %}
+                <div class="col-lg-6 order-1 order-lg-1 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="pastoral-team-section__media">
+                        <div class="pastoral-team-section__img-frame">
+                            {% if section.image_url %}
+                            <img class="pastoral-team-section__img" src="{{ section.image_url }}" alt="{{ section.alt_text|default:section.name_heading }}" width="1080" height="1080" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                            {% else %}
+                            <img class="pastoral-team-section__img" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088922/group-four-gorgeous-african-american-womans-wear-summer-hat-holding-hands-praying-green-grass-park_ncwcwr.jpg" alt="" width="1080" height="1080" loading="lazy" decoding="async">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-2 order-lg-2 wow fadeIn" data-wow-delay="0.15s">
+                    <div class="pastoral-team-section__text">
+                        {% if section.eyebrow %}
+                        <h4 class="section-title">{{ section.eyebrow }}</h4>
+                        {% endif %}
+                        <h2 class="display-5 mb-3" id="pastoral-section-{{ section.id }}">{{ section.name_heading }}</h2>
+                        {% if section.subheading %}
+                        <h3 class="h5 text-muted text-uppercase mb-3" style="letter-spacing: 0.04em;">{{ section.subheading }}</h3>
+                        {% endif %}
+                        {% if section.body %}
+                        <div class="content">{{ section.body|safe }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-lg-6 order-2 order-lg-1 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="pastoral-team-section__text">
+                        {% if section.eyebrow %}
+                        <h4 class="section-title">{{ section.eyebrow }}</h4>
+                        {% endif %}
+                        <h2 class="display-5 mb-3" id="pastoral-section-{{ section.id }}">{{ section.name_heading }}</h2>
+                        {% if section.subheading %}
+                        <h3 class="h5 text-muted text-uppercase mb-3" style="letter-spacing: 0.04em;">{{ section.subheading }}</h3>
+                        {% endif %}
+                        {% if section.body %}
+                        <div class="content">{{ section.body|safe }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2 wow fadeIn" data-wow-delay="0.15s">
+                    <div class="pastoral-team-section__media">
+                        <div class="pastoral-team-section__img-frame">
+                            {% if section.image_url %}
+                            <img class="pastoral-team-section__img" src="{{ section.image_url }}" alt="{{ section.alt_text|default:section.name_heading }}" width="1080" height="1080" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                            {% else %}
+                            <img class="pastoral-team-section__img" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088922/group-four-gorgeous-african-american-womans-wear-summer-hat-holding-hands-praying-green-grass-park_ncwcwr.jpg" alt="" width="1080" height="1080" loading="lazy" decoding="async">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% empty %}
+        <p class="text-muted mb-0">No team sections are published yet. Add them under <strong>Pastoral page · team sections</strong> in the admin.</p>
+        {% endfor %}
+    </div>
+</div>
