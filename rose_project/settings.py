@@ -116,6 +116,7 @@ INSTALLED_APPS += [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -205,6 +206,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# WhiteNoise serves collected static files in production (after collectstatic).
+WHITENOISE_MAX_AGE = 60 * 60 * 24 * 30
 
 # Media files (user uploads; default storage may be Cloudinary — see STORAGES)
 MEDIA_URL = "/media/"

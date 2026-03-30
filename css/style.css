@@ -1766,18 +1766,17 @@ h2.egroups-pillar__label {
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 0;
-    padding: 0 0 0.75rem;
+    padding: 0;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    /* Hide scrollbar on small screens (swipe still works) */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .home-events__list::-webkit-scrollbar {
-    height: 6px;
-}
-
-.home-events__list::-webkit-scrollbar-thumb {
-    background: rgba(100, 52, 138, 0.35);
-    border-radius: 999px;
+    display: none;
+    height: 0;
+    width: 0;
 }
 
 .home-events__empty {
@@ -1953,6 +1952,27 @@ h2.egroups-pillar__label {
     .pastoral-team-page.container-xxl {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    /* Prevent stray horizontal scroll; keep last profile image aligned with row edges */
+    .pastoral-team-page {
+        overflow-x: clip;
+    }
+
+    .pastoral-team-section:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .pastoral-team-section:last-child .pastoral-team-section__img-frame {
+        width: 100%;
+        max-width: none;
+        margin-inline: 0;
+    }
+
+    /* Last block: fill the square frame edge-to-edge like other photos (no letterboxing gap) */
+    .pastoral-team-section:last-child .pastoral-team-section__img {
+        object-fit: cover;
     }
 }
 
