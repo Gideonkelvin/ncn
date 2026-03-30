@@ -128,53 +128,6 @@
         </div>
     </section>
 
-    <script>
-    // Auto-swipe for services carousel
-    (function() {
-        const container = document.getElementById('servicesCarousel');
-        if (!container) return;
-        
-        let scrollAmount = 0;
-        const cardWidth = container.querySelector('.service-card').offsetWidth + 10;
-        
-        setInterval(function() {
-            if (window.innerWidth <= 768) {
-                scrollAmount += cardWidth;
-                if (scrollAmount >= container.scrollWidth) {
-                    scrollAmount = 0;
-                }
-                container.scrollTo({
-                    left: scrollAmount,
-                    behavior: 'smooth'
-                });
-            }
-        }, 3000);
-    })();
-    </script>
-
-    <style>
-    @media (max-width: 768px) {
-        .services-container {
-            display: flex !important;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 5px;
-            padding: 0 5px;
-        }
-        .service-card {
-            min-width: 95%;
-            scroll-snap-align: start;
-            margin-right: 5px;
-        }
-        .services-container::-webkit-scrollbar {
-            display: none;
-        }
-        .services-header h1 {
-            font-size: 34px;
-        }
-    }
-    </style>
-
     <section class="home-events" aria-labelledby="home-events-heading">
         <div class="container-xxl py-5">
             <div class="container">
@@ -182,7 +135,7 @@
                 <span class="home-events__pill">Activities</span>
                 <h2 id="home-events-heading" class="home-events__title">Upcoming Events</h2>
             </header>
-            <div class="home-events__list">
+            <div class="home-events__list" id="eventsCarousel">
                 {% for event in events %}
                 <article class="home-event-card wow fadeInUp" data-wow-delay="0.05s">
                     <div class="home-event-card__media">
@@ -219,9 +172,107 @@
                 {% empty %}
                 <p class="home-events__empty">No upcoming events at this time. Check back soon!</p>
                 {% endfor %}
-            </div>
-            </div>
+        </div>
+        </div>
         </div>
     </section>
+
+    <script>
+    // Auto-swipe for services carousel on small screens (one full card at a time)
+    (function() {
+        const container = document.getElementById('servicesCarousel');
+        if (!container) return;
+
+        let index = 0;
+
+        function getCards() {
+            return Array.from(container.querySelectorAll('.service-card'));
+        }
+
+        function scrollToCard(i) {
+            const cards = getCards();
+            if (!cards.length) return;
+            const target = cards[i % cards.length];
+            const left = target.offsetLeft;
+            container.scrollTo({ left, behavior: 'smooth' });
+        }
+
+        setInterval(function() {
+            if (window.innerWidth <= 768) {
+                const cards = getCards();
+                if (!cards.length) return;
+                index = (index + 1) % cards.length;
+                scrollToCard(index);
+            }
+        }, 3500);
+    })();
+
+    // Auto-swipe for activities (events) on small screens (one full card at a time)
+    (function() {
+        const container = document.getElementById('eventsCarousel');
+        if (!container) return;
+
+        let index = 0;
+
+        function getCards() {
+            return Array.from(container.querySelectorAll('.home-event-card'));
+        }
+
+        function scrollToCard(i) {
+            const cards = getCards();
+            if (!cards.length) return;
+            const target = cards[i % cards.length];
+            const left = target.offsetLeft;
+            container.scrollTo({ left, behavior: 'smooth' });
+        }
+
+        setInterval(function() {
+            if (window.innerWidth <= 768) {
+                const cards = getCards();
+                if (!cards.length) return;
+                index = (index + 1) % cards.length;
+                scrollToCard(index);
+            }
+        }, 3500);
+    })();
+    </script>
+
+    <style>
+    @media (max-width: 768px) {
+        .services-container {
+            display: flex !important;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 0;
+            padding: 0;
+        }
+        .service-card {
+            min-width: 100%;
+            scroll-snap-align: start;
+            margin-right: 0;
+        }
+        .services-container::-webkit-scrollbar {
+            display: none;
+        }
+        .services-header h1 {
+            font-size: 34px;
+        }
+
+        .home-events__list {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 0;
+            padding: 0;
+        }
+        .home-event-card {
+            min-width: 100%;
+            scroll-snap-align: start;
+        }
+        .home-events__list::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    </style>
 
 {% endblock %}
