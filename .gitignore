@@ -1,7 +1,9 @@
+# Secrets — never commit; copy .env manually when moving to cPanel or another host
 .env
 venv/
 __pycache__/
 *.pyc
+# Database + uploads — not in Git; back up and copy on server migration
 db.sqlite3
 *.sqlite3
 media/
