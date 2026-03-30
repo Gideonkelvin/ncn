@@ -5,7 +5,8 @@ services:
   - type: web
     name: rose-django
     runtime: python
-    plan: starter
+    # Use "free" for Render Free plan web services; change if you upgrade.
+    plan: free
     buildCommand: "bash build.sh"
     # Migrations run here and again in start.sh so tables always exist at runtime
     startCommand: "bash start.sh"
