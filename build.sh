@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Install Python dependencies
 pip install -r requirements.txt
 
-# Apply migrations automatically
 python manage.py migrate --noinput
 
-# Collect static files
-python manage.py collectstatic --noinput
+# django-cloudinary-storage needs this flag when using local STATIC_ROOT + WhiteNoise
+python manage.py collectstatic --noinput --upload-unhashed-files

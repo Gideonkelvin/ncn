@@ -7,7 +7,8 @@ services:
     runtime: python
     plan: starter
     buildCommand: "bash build.sh"
-    startCommand: "gunicorn rose_project.wsgi:application --bind 0.0.0.0:$PORT"
+    # Migrations run here and again in start.sh so tables always exist at runtime
+    startCommand: "bash start.sh"
     envVars:
       - key: SECRET_KEY
         generateValue: true
