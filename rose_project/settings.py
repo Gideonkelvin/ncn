@@ -86,15 +86,12 @@ CKEDITOR_CONFIGS = {
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-production")
 
-# DEBUG: read from env. Default True for local dev without .env; set DEBUG=False on Render/production.
+# DEBUG: read from env; default True for local development.
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
-# ALLOWED_HOSTS: comma-separated hostnames, or "*" (Render / quick setup — tighten later).
-_raw_allowed = os.environ.get("ALLOWED_HOSTS", "*").strip()
-if _raw_allowed == "*":
-    ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = [h.strip() for h in _raw_allowed.split(",") if h.strip()]
+# ALLOWED_HOSTS: comma-separated hostnames (override via .env).
+_raw_allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
+ALLOWED_HOSTS = [h.strip() for h in _raw_allowed.split(",") if h.strip()]
 
 
 # Application definition
@@ -119,7 +116,6 @@ INSTALLED_APPS += [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -164,24 +160,12 @@ WSGI_APPLICATION = 'rose_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Database: PostgreSQL on Render via DATABASE_URL; SQLite locally when unset.
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-if DATABASE_URL:
-    import dj_database_url
-
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-        )
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+}
 
 
 # Password validation
@@ -222,9 +206,6 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise serves collected static files in production (after collectstatic).
-WHITENOISE_MAX_AGE = 60 * 60 * 24 * 30  # 30 days for hashed filenames when using manifest storage
-
 # Media files (user uploads; default storage may be Cloudinary — see STORAGES)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -248,7 +229,7 @@ if CLOUDINARY_CONFIGURED:
         "default": {
             "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
         },
-        # Local STATIC_ROOT for WhiteNoise. With django-cloudinary-storage installed, run:
+        # With django-cloudinary-storage installed, run:
         #   python manage.py collectstatic --noinput --upload-unhashed-files
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
@@ -271,28 +252,6 @@ else:
 
 # django-cloudinary-storage patches collectstatic and still reads legacy STATICFILES_STORAGE.
 STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
-
-# -----------------------------------------------------------------------------
-# HTTPS / cookies / CSRF (production behind Render reverse proxy)
-# -----------------------------------------------------------------------------
-_csrf_origins = os.environ.get("CSRF_TRUSTED_ORIGINS", "").strip()
-CSRF_TRUSTED_ORIGINS = [
-    o.strip() for o in _csrf_origins.split(",") if o.strip()
-]
-
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_SSL_REDIRECT = (
-        os.environ.get("SECURE_SSL_REDIRECT", "True").lower() in ("true", "1", "yes")
-    )
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "31536000"))
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_REFERRER_POLICY = "same-origin"
-else:
-    SECURE_SSL_REDIRECT = False
 
 # Admin dashboard login
 LOGIN_URL = "/dashboard/login/"
