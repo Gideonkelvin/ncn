@@ -236,7 +236,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+# Must start with "/" so {% static %} resolves site-wide (not relative to /slug/ pages).
+STATIC_URL = "/static/"
 # Include theme assets (css/, lib/, js/) so collectstatic + WhiteNoise serve them in production.
 # Without this, /css/... URLs would 404 on cPanel when DEBUG=False.
 _static_dir_names = ("static", "css", "lib", "js")
