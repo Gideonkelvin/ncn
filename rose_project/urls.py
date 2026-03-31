@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.shortcuts import redirect
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
-from django.conf.urls.static import static
+from django.views.static import serve
 from django.views.generic import RedirectView
 
 
@@ -48,8 +48,15 @@ urlpatterns = [
     path("", include("main.urls")),
 ]
 
-# Serve media files in development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Local media uploads (when Cloudinary is not configured). Required on cPanel so /media/
+# works with DEBUG=False; when using Cloudinary, uploads are served from the CDN.
+if not getattr(settings, "MEDIA_CLOUDINARY_ENABLED", False):
+    urlpatterns += [
+        re_path(
+            r"^media/(?P<path>.*)$",
+            serve,
+            {"document_root": settings.MEDIA_ROOT},
+        ),
+    ]
 
 handler404 = "main.views.page_not_found_view"

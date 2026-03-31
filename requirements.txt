@@ -2,6 +2,9 @@
 Django>=6.0,<7.0
 python-dotenv>=1.0.0
 whitenoise>=6.8.0
+dj-database-url>=2.3.0
+# MySQL driver for cPanel when DATABASE_URL is set (Linux). On Windows dev, use SQLite or install a matching wheel.
+mysqlclient>=2.2.0
 
 # Media / cloud
 cloudinary>=1.36.0

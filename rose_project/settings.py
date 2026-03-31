@@ -27,6 +27,8 @@ CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET", "")
 CLOUDINARY_CONFIGURED = bool(
     CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET
 )
+# Exposed for URL routing (django.conf.settings); True when uploads go to Cloudinary.
+MEDIA_CLOUDINARY_ENABLED = CLOUDINARY_CONFIGURED
 
 # django-ckeditor / ckeditor_uploader — define before INSTALLED_APPS so the setting
 # always exists when ckeditor_uploader is imported (avoids ImproperlyConfigured).
@@ -90,8 +92,27 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-producti
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
 # ALLOWED_HOSTS: comma-separated hostnames (override via .env).
+# Production: set to your domain(s), e.g. example.com,www.example.com
 _raw_allowed = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").strip()
 ALLOWED_HOSTS = [h.strip() for h in _raw_allowed.split(",") if h.strip()]
+
+# HTTPS / CSRF (required when DEBUG=False behind cPanel SSL or reverse proxy)
+_csrf_origins = os.environ.get("CSRF_TRUSTED_ORIGINS", "").strip()
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_origins.split(",") if o.strip()]
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = (
+        os.environ.get("SECURE_SSL_REDIRECT", "True").lower() in ("true", "1", "yes")
+    )
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = "same-origin"
+else:
+    SECURE_SSL_REDIRECT = False
 
 
 # Application definition
@@ -160,13 +181,25 @@ WSGI_APPLICATION = 'rose_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# cPanel: set DATABASE_URL to MySQL from "MySQL Databases" (mysql://user:pass@localhost:3306/dbname)
+# Leave unset to use SQLite (db.sqlite3) — fine for small sites if the file is backed up.
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+if DATABASE_URL:
+    import dj_database_url
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -204,7 +237,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
+# Include theme assets (css/, lib/, js/) so collectstatic + WhiteNoise serve them in production.
+# Without this, /css/... URLs would 404 on cPanel when DEBUG=False.
+_static_dir_names = ("static", "css", "lib", "js")
+STATICFILES_DIRS = [BASE_DIR / name for name in _static_dir_names if (BASE_DIR / name).is_dir()]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise serves collected static files in production (after collectstatic).

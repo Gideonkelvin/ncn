@@ -39,27 +39,30 @@ Git and `.gitignore` **do not** include several things that hold your real site 
    - `SECRET_KEY` (strong, unique)
    - `DEBUG=False`
    - `ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com`
+   - **`CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`** (required for forms/admin over HTTPS)
    - Cloudinary / email / API keys as on your old server
 
 4. **Database** — Either:
    - Upload **`db.sqlite3`** into the project folder (same path as locally), **or**
-   - Create a MySQL database in cPanel, add credentials to `.env`, and point `DATABASES` in `settings.py` to MySQL (requires a small settings change + `migrate`).
+   - Create a MySQL database in cPanel and set **`DATABASE_URL`** in `.env` (see `.env.example`). The project reads this automatically (`dj-database-url` + `mysqlclient`). Then run **`migrate`**.
 
-5. **Django commands** (SSH or cPanel terminal), from the folder that contains `manage.py`:
+5. **Static files (CSS, JS, theme)** — Templates use Django’s `{% static %}` so assets are served at **`/static/...`** (WhiteNoise). You **must** run **`collectstatic`** on the server or pages will load with no styling. From the folder that contains `manage.py`:
    ```bash
    python manage.py migrate
    python manage.py collectstatic --noinput
    ```
-   If you use Cloudinary + `django-cloudinary-storage`, your build may need:
+   If you use Cloudinary + `django-cloudinary-storage`, use:
    ```bash
    python manage.py collectstatic --noinput --upload-unhashed-files
    ```
 
-6. **Permissions** — Ensure the web user can read the app and write to `media/` (and `db.sqlite3` if you use SQLite).
+6. **Local media** — If Cloudinary is **not** configured, uploaded files under **`media/`** are served by Django in production (so `/media/` works with `DEBUG=False`). Copy the **`media/`** folder when migrating, or keep using Cloudinary so files stay on the CDN.
 
-7. **WSGI** — Point the Python app to `passenger_wsgi.py` in this repo (see file header). Adjust paths if your host puts the project in a subfolder.
+7. **Permissions** — Ensure the web user can read the app and write to `media/` (and `db.sqlite3` if you use SQLite).
 
-8. **HTTPS / CSRF** — For production, set `CSRF_TRUSTED_ORIGINS` (e.g. `https://yourdomain.com`) in `.env` if you add that to `settings.py`, or configure it per Django’s deployment checklist.
+8. **WSGI** — Point the Python app to **`passenger_wsgi.py`** in this repo (see file header). Adjust paths if your host puts the project in a subfolder.
+
+9. **HTTPS** — With `DEBUG=False`, the project enables secure cookies and HSTS. Use HTTPS on your domain; set **`CSRF_TRUSTED_ORIGINS`** as above. If you must test over plain HTTP temporarily, set `SECURE_SSL_REDIRECT=False` in `.env` (not recommended long-term).
 
 ## Quick “nothing lost” checklist
 
@@ -68,8 +71,8 @@ Git and `.gitignore` **do not** include several things that hold your real site 
 - [ ] `db.sqlite3` copied **or** DB exported/imported
 - [ ] `media/` copied if you use local uploads
 - [ ] `pip install -r requirements.txt`
-- [ ] `migrate` + `collectstatic`
-- [ ] `ALLOWED_HOSTS` and `DEBUG=False` for production
+- [ ] `migrate` + **`collectstatic`** (open the site and confirm CSS/JS load)
+- [ ] `ALLOWED_HOSTS`, **`CSRF_TRUSTED_ORIGINS`**, and `DEBUG=False` for production
 - [ ] Test admin login and a page with uploads
 
 Keeping this checklist avoids losing CMS content, users, or uploaded files when moving to cPanel.
