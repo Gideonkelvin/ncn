@@ -46,7 +46,15 @@ urlpatterns = [
     # Redirects for removed pages
     path('speaking.html', RedirectView.as_view(url='/about', permanent=True), name='speaking_redirect'),
     path('resources.html', RedirectView.as_view(url='/about', permanent=True), name='resources_redirect'),
-    # Static assets (template uses relative paths: css/, js/, lib/, img/)
+    # Static assets (theme files)
+    # Templates use {% static %} which renders under STATIC_URL (typically /static/).
+    # Your project also supports legacy direct URLs (/css/, /js/, /lib/, /img/) via these routes.
+    # New /static/* routes:
+    path('static/css/<path:path>', views.serve_static_css, name='static_css_staticurl'),
+    path('static/js/<path:path>', views.serve_static_js, name='static_js_staticurl'),
+    path('static/lib/<path:path>', views.serve_static_lib, name='static_lib_staticurl'),
+    path('static/img/<path:path>', views.serve_static_img, name='static_img_staticurl'),
+    # Legacy direct routes:
     path('css/<path:path>', views.serve_static_css, name='static_css'),
     path('js/<path:path>', views.serve_static_js, name='static_js'),
     path('lib/<path:path>', views.serve_static_lib, name='static_lib'),
