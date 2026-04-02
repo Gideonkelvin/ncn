@@ -49,9 +49,14 @@ CONTENT_TYPES = {
 def _serve_static(request, folder, path):
     if folder not in STATIC_FOLDERS:
         raise Http404
-    if ".." in path or path.startswith("/"):
+    # Normalize path so both `/static/css/style.css` and accidental
+    # `path="css/style.css"` variants still resolve correctly.
+    norm_path = (path or "").replace("\\", "/").lstrip("/")
+    if norm_path.startswith(f"{folder}/"):
+        norm_path = norm_path[len(folder) + 1 :]
+    if ".." in norm_path or norm_path.startswith("/"):
         raise Http404
-    filepath = settings.BASE_DIR / folder / path
+    filepath = settings.BASE_DIR / folder / norm_path
     if not filepath.is_file():
         raise Http404
     try:
@@ -61,9 +66,7 @@ def _serve_static(request, folder, path):
             raise Http404
     except Exception:
         raise Http404
-    content_type = CONTENT_TYPES.get(
-        (Path(path).suffix or "").lower(), "application/octet-stream"
-    )
+    content_type = CONTENT_TYPES.get((Path(norm_path).suffix or "").lower(), "application/octet-stream")
     return HttpResponse(filepath.read_bytes(), content_type=content_type)
 
 
