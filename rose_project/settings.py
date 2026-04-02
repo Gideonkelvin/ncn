@@ -88,6 +88,10 @@ CKEDITOR_CONFIGS = {
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-me-in-production")
 
+# Remove model primary-key warnings by standardizing auto primary key type.
+# This does not change existing migrations; it only affects future migrations.
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # DEBUG: read from env; default True for local development.
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
