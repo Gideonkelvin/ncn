@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Gallery{% endblock %}
+
+{% block extra_css %}
+<style>
+    .gallery-page-intro {
+        margin-bottom: 1rem;
+    }
+
+    .gallery-page-intro__lead {
+        color: #000000 !important;
+    }
+
+    .gallery-album-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        border: none;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .gallery-album-row {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 0;
+        background: #fff;
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s ease;
+        overflow: hidden;
+    }
+
+    .gallery-album-row:hover {
+        background: #f7f7f7;
+        color: inherit;
+    }
+
+    .gallery-album-row__thumb {
+        flex: 0 0 5rem;
+        width: 5rem;
+        min-height: 3.25rem;
+        align-self: stretch;
+        border-radius: 0;
+        overflow: hidden;
+        background: #f0f0f0;
+        flex-shrink: 0;
+    }
+
+    .gallery-album-row__thumb img {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    .gallery-album-row__thumb-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9a9a9a;
+        text-align: center;
+        padding: 0.35rem;
+    }
+
+    .gallery-album-row__content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.05rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .gallery-album-row__title {
+        margin: 0 !important;
+        color: #000000;
+        line-height: 1.2;
+    }
+
+    .gallery-album-row__title-inner {
+        display: inline;
+    }
+
+    .gallery-album-row__title-text {
+        display: inline;
+    }
+
+    .gallery-album-row__arrow {
+        display: inline;
+        margin-left: 0.12em;
+        font-size: 0.88em;
+        color: var(--primary);
+        line-height: inherit;
+        vertical-align: baseline;
+        white-space: nowrap;
+        transition: transform 0.2s ease;
+    }
+
+    .gallery-album-row:hover .gallery-album-row__arrow {
+        transform: translate(2px, -2px);
+    }
+
+    .gallery-album-row__date {
+        margin: 0;
+        font-size: 0.8125rem;
+        line-height: 1.2;
+        color: var(--text-tertiary, #6b7280);
+    }
+
+    .gallery-empty {
+        text-align: center;
+        color: #6c757d;
+        padding: 2.5rem 1rem;
+        border: 1px solid #e8e8e8;
+    }
+
+    .gallery-album-col--hidden {
+        display: none !important;
+    }
+
+    .gallery-load-more-wrap {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .gallery-load-more-btn {
+        border-radius: 0;
+        min-width: 11rem;
+        padding: 0.75rem 1.75rem;
+    }
+
+    .gallery-album-row__title {
+        font-size: 0.9375rem !important;
+    }
+
+    @media (min-width: 992px) {
+        .gallery-album-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            border: none;
+            background: transparent;
+        }
+
+        .gallery-album-col {
+            flex: 0 0 calc((100% - 1.2rem) / 4);
+            max-width: calc((100% - 1.2rem) / 4);
+        }
+
+        .gallery-album-row {
+            padding: 0;
+            gap: 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 0;
+            height: 100%;
+            align-items: stretch;
+        }
+
+        .gallery-album-row__thumb {
+            flex: 0 0 2.75rem;
+            width: 2.75rem;
+            min-height: 2.15rem;
+            height: auto;
+        }
+
+        .gallery-album-row__thumb-placeholder {
+            padding: 0.15rem;
+        }
+
+        .gallery-album-row__content {
+            gap: 0.04rem;
+            padding: 0.2rem 0.35rem;
+        }
+
+        .gallery-album-row__title-inner {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .gallery-album-row__title {
+            font-size: 0.8125rem !important;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .gallery-page-section .container {
+            padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+            padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+        }
+
+        .gallery-album-col {
+            width: 100%;
+        }
+
+        .gallery-album-list {
+            gap: 0.28rem;
+        }
+
+        .gallery-album-row__thumb {
+            flex: 0 0 3.75rem;
+            width: 3.75rem;
+            min-height: 2.35rem;
+        }
+
+        .gallery-album-row__thumb-placeholder {
+            padding: 0.2rem;
+            font-size: 0.7rem;
+        }
+
+        .gallery-album-row__content {
+            gap: 0;
+            padding: 0.2rem 0.4rem;
+        }
+
+        .gallery-album-row__title {
+            font-size: 0.875rem !important;
+            line-height: 1.15;
+        }
+
+        .gallery-album-row__date {
+            font-size: 0.75rem;
+            line-height: 1.15;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .gallery-album-list {
+            gap: 0.22rem;
+        }
+
+        .gallery-album-row__thumb {
+            flex: 0 0 3.25rem;
+            width: 3.25rem;
+            min-height: 2rem;
+        }
+
+        .gallery-album-row__content {
+            padding: 0.15rem 0.35rem;
+        }
+
+        .gallery-album-row__title {
+            font-size: 0.8125rem !important;
+        }
+
+        .gallery-album-row__date {
+            font-size: 0.6875rem;
+        }
+
+        .gallery-album-row__arrow {
+            font-size: 0.82em;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-content-section py-5 my-2 gallery-page-section">
+    <div class="container">
+        <div class="gallery-page-intro">
+            <h1 class="section-heading mb-1">Gallery</h1>
+            <p class="mb-0 gallery-page-intro__lead">Browse photos from our church events and gatherings.</p>
+        </div>
+
+        <div class="gallery-album-list" id="galleryAlbumList">
+            {% for album in gallery_albums %}
+            <div class="gallery-album-col wow fadeInUp" data-wow-delay="0.05s">
+                <a href="{% url 'engage_gallery_detail' album.slug %}" class="gallery-album-row">
+                    <div class="gallery-album-row__thumb">
+                        {% with cover=album.cover_image %}
+                        {% if cover and cover.image %}
+                        <img src="{{ cover.image.url }}" alt="{{ album.title }}" loading="lazy" decoding="async">
+                        {% else %}
+                        <div class="gallery-album-row__thumb-placeholder">No image</div>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="gallery-album-row__content">
+                        <h2 class="gallery-album-row__title">
+                            <span class="gallery-album-row__title-inner"><span class="gallery-album-row__title-text">{{ album.title }}</span><span class="gallery-album-row__arrow" aria-hidden="true"><i class="bi bi-box-arrow-up-right"></i></span></span>
+                        </h2>
+                        <p class="gallery-album-row__date">{{ album.event_date|date:"F j, Y" }}</p>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <p class="gallery-empty">No gallery albums yet. Add them in the admin panel to see them here.</p>
+            {% endfor %}
+        </div>
+
+        {% if gallery_albums %}
+        <div class="gallery-load-more-wrap" id="galleryLoadMoreWrap" hidden>
+            <button type="button" class="btn btn-primary gallery-load-more-btn" id="galleryLoadMoreBtn">Load more</button>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/gallery-list.js' %}"></script>
+{% endblock %}

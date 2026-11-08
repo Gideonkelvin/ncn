@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Men's Ministry{% endblock %}
+
+{% block extra_css %}
+<style>
+    .mens-page {
+        background: #fafafa;
+    }
+    .mens-block {
+        margin-bottom: 1.75rem;
+    }
+    .mens-heading {
+        color: #1e3a5f;
+        margin: 0 0 0.7rem;
+    }
+    .mens-prose {
+        text-align: justify;
+        text-justify: inter-word;
+        color: #000000;
+        line-height: 1.78;
+        margin: 0;
+    }
+    .mens-collage {
+        position: relative;
+        max-width: 500px;
+        margin-inline: auto;
+    }
+    .mens-collage-card {
+        position: relative;
+        border-radius: 0.3rem;
+        background: #ffffff;
+        padding: 0.45rem;
+        outline: 1px solid #d9d9d9;
+        margin: 0;
+    }
+    .mens-collage-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0.2rem;
+    }
+    .mens-collage-card--top {
+        width: min(96%, 430px);
+        margin-left: auto;
+        transform: rotate(-3deg);
+        z-index: 2;
+    }
+    .mens-collage-card--bottom {
+        margin-top: -1%;
+        width: min(88%, 380px);
+        margin-left: auto;
+        margin-right: 2rem;
+        transform: rotate(2deg);
+        z-index: 1;
+    }
+    @media (max-width: 575.98px) {
+        .mens-collage-card--bottom {
+            margin-right: 0.6rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="mens-page page-content-section py-5 my-2">
+        <div class="container">
+            {% for section in mens_sections %}
+            <div class="mens-block wow fadeInUp" data-wow-delay="0.1s">
+                {% if section.image or section.image_secondary %}
+                <div class="row g-4 align-items-stretch">
+                    {% if section.image_on_right %}
+                    <div class="col-lg-7">
+                        <h2 class="mens-heading">{{ section.heading }}</h2>
+                        {% if section.body %}<div class="mens-prose">{{ section.body|html_or_linebreaks_br }}</div>{% endif %}
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="mens-collage">
+                            {% if section.image %}
+                            <figure class="mens-collage-card mens-collage-card--top mb-0">
+                                <img src="{{ section.image.url }}" alt="{{ section.heading }}" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                            {% if section.image_secondary %}
+                            <figure class="mens-collage-card mens-collage-card--bottom mb-0">
+                                <img src="{{ section.image_secondary.url }}" alt="{{ section.heading }} secondary" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-lg-5">
+                        <div class="mens-collage">
+                            {% if section.image %}
+                            <figure class="mens-collage-card mens-collage-card--top mb-0">
+                                <img src="{{ section.image.url }}" alt="{{ section.heading }}" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                            {% if section.image_secondary %}
+                            <figure class="mens-collage-card mens-collage-card--bottom mb-0">
+                                <img src="{{ section.image_secondary.url }}" alt="{{ section.heading }} secondary" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <h2 class="mens-heading">{{ section.heading }}</h2>
+                        {% if section.body %}<div class="mens-prose">{{ section.body|html_or_linebreaks_br }}</div>{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <h2 class="mens-heading">{{ section.heading }}</h2>
+                {% if section.body %}<div class="mens-prose">{{ section.body|html_or_linebreaks_br }}</div>{% endif %}
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="mens-block">
+                <p class="mens-prose mb-0">Men's Ministry content will appear here after you add sections in the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

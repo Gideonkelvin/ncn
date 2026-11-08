@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — E-Groups{% endblock %}
+
+{% block extra_css %}
+<style>
+    .egroups-body {
+        background: #fafafa;
+    }
+    .egroups-prose {
+        text-align: justify;
+        text-justify: inter-word;
+        color: #000000;
+    }
+    .egroups-prose > p,
+    .egroups-prose .egroups-intro-block p {
+        margin-bottom: 1.1rem;
+    }
+    .egroups-prose > p:last-child,
+    .egroups-prose .egroups-intro-block p:last-child {
+        margin-bottom: 0;
+    }
+    .egroups-lede {
+        font-weight: 500;
+        color: #000000;
+        margin-top: 1.75rem;
+        margin-bottom: 1.5rem !important;
+        padding: 1rem 1.15rem;
+        background: linear-gradient(135deg, rgba(106, 27, 154, 0.08), rgba(253, 216, 53, 0.06));
+        border-left: 4px solid var(--primary, #6A1B9A);
+        border-radius: 0 0.35rem 0.35rem 0;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .egroups-lede p {
+        margin-bottom: 0.65rem;
+    }
+    .egroups-lede p:last-child {
+        margin-bottom: 0;
+    }
+    .egroups-pillar {
+        margin-bottom: 1.75rem;
+        padding: 1.25rem 1.35rem;
+        background: #fff;
+        border-radius: 0;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    @media (min-width: 992px) {
+        .egroups-pillar {
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+    .egroups-pillar__title {
+        color: #1e3a5f;
+        margin: 0 0 0.85rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(106, 27, 154, 0.25);
+        text-align: left;
+    }
+    .egroups-pillar-body {
+        text-align: justify;
+        text-justify: inter-word;
+        color: #000000;
+    }
+    .egroups-pillar-body p {
+        margin-bottom: 0.65rem;
+    }
+    .egroups-pillar-body p:last-child {
+        margin-bottom: 0;
+    }
+    .egroups-grid {
+        margin-top: 0.5rem;
+    }
+    @media (min-width: 992px) {
+        .egroups-grid .egroups-pillar {
+            height: calc(100% - 0rem);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="egroups-body page-content-section py-5 my-2">
+        <div class="container">
+            <div class="egroups-prose wow fadeInUp" data-wow-delay="0.1s">
+                {% for block in egroup_intros %}
+                <div class="egroups-intro-block">{{ block.body|html_or_linebreaks }}</div>
+                {% empty %}
+                {% if not egroup_lede and not egroup_pillars %}
+                <p class="text-muted mb-0">E-Groups content will appear here once you add <strong>eGroup</strong> items in the admin (kind: Intro paragraph, Lede, or Pillar).</p>
+                {% endif %}
+                {% endfor %}
+                {% if egroup_lede %}
+                <div class="egroups-lede">{{ egroup_lede.body|html_or_linebreaks }}</div>
+                {% endif %}
+            </div>
+
+            {% if egroup_pillars %}
+            <div class="row g-4 egroups-grid">
+                {% for pillar in egroup_pillars %}
+                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                    <section class="egroups-pillar h-100">
+                        {% if pillar.title %}
+                        <h2 class="egroups-pillar__title">{{ pillar.title }}</h2>
+                        {% endif %}
+                        <div class="egroups-pillar-body">{{ pillar.body|html_or_linebreaks }}</div>
+                    </section>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Page not found — Nairobi Chapel Ngong Hills{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-not-found {
+        max-width: 36rem;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .page-not-found__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        margin-bottom: 1.25rem;
+        background: rgba(106, 27, 154, 0.1);
+        color: var(--primary, #6A1B9A);
+        font-size: 1.75rem;
+    }
+
+    .page-not-found__lead {
+        color: #000000;
+        margin-bottom: 1.75rem;
+    }
+
+    .page-not-found__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    .page-not-found__actions .btn {
+        border-radius: 0;
+        min-width: 10rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-content-section py-5 my-2">
+    <div class="container py-lg-4">
+        <div class="page-not-found wow fadeInUp" data-wow-delay="0.1s">
+            <div class="page-not-found__icon" aria-hidden="true">
+                <i class="bi bi-signpost-split"></i>
+            </div>
+            <h1 class="section-heading mb-3">Page not found</h1>
+            <p class="page-not-found__lead mb-0">
+                The page you are looking for may have been moved, removed, or the address might be incorrect.
+            </p>
+            <div class="page-not-found__actions mt-4">
+                <a href="{% url 'index' %}" class="btn btn-primary px-4 py-3">Back to home</a>
+                <a href="{% url 'contact' %}" class="btn btn-outline-dark px-4 py-3">Contact us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

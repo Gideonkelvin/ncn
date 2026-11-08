@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nairobi Chapel Ngong Hills — {{ album.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css">
+<style>
+    .gallery-page-intro {
+        margin-bottom: 1.5rem;
+    }
+
+    .gallery-detail-section {
+        padding-bottom: 2rem;
+    }
+
+    .gallery-detail-header .gallery-detail-date {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .gallery-detail-photos {
+        margin-bottom: 0.5rem;
+    }
+
+    .gallery-detail-back-wrap {
+        padding-top: 1.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .gallery-detail-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .gallery-detail-back:hover {
+        color: var(--primary-dark);
+    }
+
+    #lightgallery img {
+        width: 100%;
+        display: block;
+        cursor: pointer;
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+    }
+
+    #lightgallery a {
+        pointer-events: auto;
+    }
+
+    #lightgallery img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-empty-detail {
+        text-align: center;
+        color: #6c757d;
+        padding: 2rem 1rem;
+    }
+
+    @media (max-width: 991.98px) {
+        .gallery-detail-section .container {
+            padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+            padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-content-section py-5 my-2 gallery-page-section gallery-detail-section">
+    <div class="container">
+        <header class="gallery-page-intro gallery-detail-header">
+            <h1 class="section-heading mb-2">{{ album.title }}</h1>
+            <p class="gallery-detail-date mb-0">{{ album.event_date|date:"F j, Y" }}</p>
+        </header>
+
+        <div class="gallery-detail-photos">
+            <div id="lightgallery">
+                {% for photo in gallery_images %}
+                <a href="{{ photo.image.url }}" class="gallery-tile" data-lg-size="1600-1067">
+                    <img
+                        class="gallery-tile-img"
+                        src="{{ photo.image.url }}"
+                        alt="{{ photo.alt_text }}"
+                        width="1600"
+                        height="1067"
+                        decoding="async"
+                        loading="lazy"
+                    >
+                </a>
+                {% empty %}
+                <p class="gallery-empty-detail">No images in this album yet. Add photos in the admin panel.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="gallery-detail-back-wrap">
+            <a href="{% url 'engage_gallery' %}" class="gallery-detail-back">&larr; Back to Gallery</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var $gallery = $('#lightgallery');
+    if (!$gallery.length || !$gallery.find('a').length) return;
+
+    var isMobile = window.innerWidth <= 768;
+    var rowHeight = isMobile ? 160 : 200;
+    var maxRowHeight = isMobile ? 220 : 280;
+
+    $gallery.justifiedGallery({
+        rowHeight: rowHeight,
+        maxRowHeight: maxRowHeight,
+        margins: isMobile ? 2 : 4,
+        captions: false,
+        lastRow: 'nojustify',
+        border: 0,
+        useImageMap: false
+    }).on('jg.complete', function () {
+        if ($gallery.data('lightGallery')) {
+            $gallery.data('lightGallery').destroy(true);
+        }
+        lightGallery(this, {
+            plugins: [lgZoom],
+            speed: 250,
+            mode: 'lg-slide',
+            download: false,
+            actualSize: true,
+            hideBarsDelay: 3000,
+            preload: 1,
+            getCaptionFromTitleOrAlt: false
+        });
+    });
+});
+</script>
+{% endblock %}

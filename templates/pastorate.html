@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Pastorate{% endblock %}
+
+{% block extra_css %}
+<style>
+    .pastorate-team {
+        background: #ffffff;
+    }
+    .pastorate-intro {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .pastorate-card {
+        height: 100%;
+    }
+    .pastorate-card__media {
+        background: #e9ecef;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        aspect-ratio: 3 / 4;
+    }
+    .pastorate-card__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+    }
+    .pastorate-card__name {
+        color: #1e3a5f;
+        margin-bottom: 0.35rem;
+    }
+    .pastorate-card__role {
+        color: #000000;
+        margin: 0 0 0.65rem;
+    }
+    .pastorate-card__bio {
+        margin: 0;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .pastorate-card__bio p {
+        margin-bottom: 0.5em;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .pastorate-card__bio p:last-child {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="pastorate-team page-content-section py-5 my-2">
+        <div class="container">
+            <div class="text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <h4 class="section-title">Our Pastorate</h4>
+                <h1 class="display-5 mb-4">Leaders shepherding our church family</h1>
+            </div>
+            <p class="pastorate-intro mb-4 mb-lg-5">The leadership at Nairobi Chapel Ngong Hills is committed to serving God faithfully while guiding the church in living out its mission and vision. With a heart for people and a passion for discipleship, each leader brings unique gifts, wisdom, and dedication to building a Christ-centered community. They work together to nurture spiritual growth, empower believers, and provide clear direction for the expansion and impact of our ministries. Through humble service and intentional leadership, they seek to inspire transformation and purpose in every member of the congregation.</p>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 g-lg-5">
+                {% for member in pastorate_members %}
+                <div class="col">
+                    <article class="pastorate-card wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                        <div class="pastorate-card__media">
+                            <img src="{{ member.photo.url }}"
+                                 alt="{{ member.name }}"
+                                 width="600"
+                                 height="800"
+                                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                                 decoding="async">
+                        </div>
+                        <h3 class="pastorate-card__name mb-0">{{ member.name }}</h3>
+                        <p class="pastorate-card__role">{{ member.role }}</p>
+                        {% if member.bio %}
+                        <div class="pastorate-card__bio">{{ member.bio|html_or_linebreaks }}</div>
+                        {% endif %}
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-muted mb-0">Pastorate profiles will appear here once they are added in the admin.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

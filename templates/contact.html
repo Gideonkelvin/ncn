@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Contact{% endblock %}
+
+{% block content %}
+
+    <!-- Contact Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="bg-light d-flex align-items-center w-100 p-4 mb-4 contact-info-card">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-map-marker-alt text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Address</p>
+                                <h3 class="mb-0">
+                                    <a href="https://maps.app.goo.gl/kefYPB5LYDqVf6f27" target="_blank" rel="noopener noreferrer" class="text-dark text-decoration-none">Link Road, Off Ngong-Suswa Road</a>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="bg-light d-flex align-items-center w-100 p-4 mb-4 contact-info-card">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-phone-alt text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Call Us Now</p>
+                                <h3 class="mb-0">+254 797 559118</h3>
+                            </div>
+                        </div>
+                        <div class="bg-light d-flex align-items-center w-100 p-4 contact-info-card">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-envelope-open text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Mail Us Now</p>
+                                <h3 class="mb-0">ncngonghills@gmail.com</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <p class="mb-4">Send us a message and we will respond as soon as we can.</p>
+                    <form id="contact-form" class="site-form" method="post" action="{% url 'contact' %}" novalidate>
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <div class="form-floating">
+                                    {{ form.name }}
+                                    <label for="{{ form.name.id_for_label }}">Your Name</label>
+                                </div>
+                                {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-floating">
+                                    {{ form.email }}
+                                    <label for="{{ form.email.id_for_label }}">Your Email</label>
+                                </div>
+                                {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form.phone }}
+                                    <label for="{{ form.phone.id_for_label }}">Phone</label>
+                                </div>
+                                {% if form.phone.errors %}<div class="text-danger small mt-1">{{ form.phone.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form.subject }}
+                                    <label for="{{ form.subject.id_for_label }}">Subject</label>
+                                </div>
+                                {% if form.subject.errors %}<div class="text-danger small mt-1">{{ form.subject.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form.message }}
+                                    <label for="{{ form.message.id_for_label }}">Message</label>
+                                </div>
+                                {% if form.message.errors %}<div class="text-danger small mt-1">{{ form.message.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <button id="contact-submit" class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+
+    <!-- Google Map Start -->
+    <div class="container-xxl pt-5 px-0 wow fadeIn" data-wow-delay="0.1s">
+        <iframe class="w-100 mb-n2" style="height: 450px;"
+            title="Nairobi Chapel Ngong Hills on Google Maps"
+            src="https://www.google.com/maps?q=-1.3562906%2C36.6519429&amp;z=17&amp;hl=en&amp;output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen=""
+            aria-hidden="false"
+            tabindex="0"></iframe>
+    </div>
+    <!-- Google Map End -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var form = document.getElementById("contact-form");
+    var btn = document.getElementById("contact-submit");
+    if (!form || !btn) return;
+    var defaultLabel = btn.textContent.trim();
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        var fd = new FormData(form);
+        fetch(form.action, {
+            method: "POST",
+            body: fd,
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            credentials: "same-origin",
+        })
+            .then(function (r) {
+                return r.json().then(function (data) {
+                    return { ok: r.ok, status: r.status, data: data };
+                }).catch(function () {
+                    return { ok: false, status: r.status, data: {} };
+                });
+            })
+            .then(function (res) {
+                if (res.ok && res.data && res.data.ok === true) {
+                    btn.textContent = "Sent";
+                    form.reset();
+                    setTimeout(function () {
+                        btn.textContent = defaultLabel;
+                        btn.disabled = false;
+                    }, 2000);
+                    return;
+                }
+                btn.textContent = defaultLabel;
+                btn.disabled = false;
+            })
+            .catch(function () {
+                btn.textContent = defaultLabel;
+                btn.disabled = false;
+            });
+    });
+})();
+</script>
+{% endblock %}

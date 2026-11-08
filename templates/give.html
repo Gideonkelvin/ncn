@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Give{% endblock %}
+
+{% block extra_css %}
+<style>
+    .give-lead-block {
+        max-width: 48rem;
+        margin-bottom: 2.75rem;
+    }
+    .give-lead-title {
+        color: #000000;
+        margin-bottom: 1.1rem;
+    }
+    .give-lead-text {
+        color: #000000;
+    }
+    .give-lead-text p {
+        margin: 0 0 0.85em;
+    }
+    .give-lead-text p:last-child {
+        margin-bottom: 0;
+    }
+    .give-card {
+        background: #fff;
+        border-radius: 0;
+        padding: 1.5rem 1.35rem;
+        height: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .give-card__row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    .give-card__icon {
+        flex-shrink: 0;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .give-card__icon--mpesa {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    .give-card__icon--cheque {
+        background: rgba(253, 216, 53, 0.22);
+        color: #c9a227;
+    }
+    .give-card__title {
+        margin: 0 0 0.75rem;
+    }
+    .give-card__title--mpesa {
+        color: #2e7d32;
+    }
+    .give-card__title--cheque {
+        color: #c9a227;
+    }
+    .give-card__body {
+        margin: 0;
+        color: #000000;
+    }
+    .give-card__body strong {
+        font-weight: 700;
+    }
+    .give-card__body .give-highlight--mpesa {
+        color: #2e7d32;
+    }
+    .give-card__body .give-highlight--cheque {
+        color: #c9a227;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-xxl py-5">
+        <div class="container">
+            {% if give_page %}
+            <header class="give-lead-block wow fadeInUp" data-wow-delay="0.05s">
+                <h2 class="give-lead-title section-heading">{{ give_page.lead_title }}</h2>
+                <div class="give-lead-text">{{ give_page.lead_text|html_or_linebreaks }}</div>
+            </header>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <article class="give-card give-card--mpesa">
+                        <div class="give-card__row">
+                            <div class="give-card__icon give-card__icon--mpesa" aria-hidden="true">
+                                <i class="fa fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <h2 class="give-card__title give-card__title--mpesa section-heading">{{ give_page.mpesa_title }}</h2>
+                                <div class="give-card__body">{{ give_page.mpesa_body|html_or_linebreaks }}</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.15s">
+                    <article class="give-card give-card--cheque">
+                        <div class="give-card__row">
+                            <div class="give-card__icon give-card__icon--cheque" aria-hidden="true">
+                                <i class="fa fa-pen"></i>
+                            </div>
+                            <div>
+                                <h2 class="give-card__title give-card__title--cheque section-heading">{{ give_page.cheque_title }}</h2>
+                                <div class="give-card__body">{{ give_page.cheque_body|html_or_linebreaks }}</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-muted">Give page content is not available yet. Please add it in the admin.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

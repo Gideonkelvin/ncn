@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+{% load static site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Home{% endblock %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block extra_css %}
+<style>
+    .home-events-card {
+        border: 1px solid #ececec;
+        border-radius: 0;
+        background: #fff;
+        overflow: hidden;
+        height: 100%;
+    }
+    .home-events-card__image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+    }
+    .home-events-card__body {
+        padding: 0.8rem 0.9rem 0.65rem;
+    }
+    .home-events-card__title {
+        margin: 0 0 0.2rem;
+        color: #000000;
+    }
+    .home-events-card__meta {
+        margin: 0;
+        color: var(--text-tertiary, #6b7280);
+    }
+    .home-events-card__date {
+        margin: 0.35rem 0 0.25rem;
+        color: #c62828;
+        font-weight: 700;
+    }
+    .home-events-card__place {
+        margin: 0;
+        color: var(--text-tertiary, #6b7280);
+    }
+    .home-events-card__cta {
+        display: block;
+        margin: 0.7rem 0.9rem 0.9rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0;
+        background: var(--accent);
+        color: #000000;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+    }
+    @media (max-width: 991.98px) {
+        .home-events-row {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.4rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .home-events-row::-webkit-scrollbar {
+            display: none;
+        }
+        .home-events-row > [class*="col-"] {
+            flex: 0 0 100%;
+            max-width: 100%;
+            scroll-snap-align: start;
+        }
+    }
+    /* Home “Our Services” cards */
+    .service-item-home .service-text h3 {
+        color: var(--accent) !important;
+        font-weight: 700;
+    }
+    .service-item-home:hover .service-text h3 {
+        color: var(--accent) !important;
+    }
+    .service-item-home .home-services-icon {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        display: inline-block;
+    }
+    .home-about-point-icon {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+        display: inline-block;
+    }
+    .service-item-home .home-services-card__body,
+    .service-item-home .home-services-card__body p {
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0 home-hero" id="home-hero" tabindex="-1">
+        <div class="owl-carousel header-carousel header-carousel--fade position-relative">
+            {% for slide in home_hero_slides %}
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{{ slide.image.url }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                {% include 'includes/home_hero_slide_overlay.html' %}
+            </div>
+            {% empty %}
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static 'img/carousel-1.jpg' %}" alt="" loading="eager" decoding="async">
+                {% include 'includes/home_hero_slide_overlay.html' %}
+            </div>
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static 'img/carousel-2.jpg' %}" alt="" loading="lazy" decoding="async">
+                {% include 'includes/home_hero_slide_overlay.html' %}
+            </div>
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static 'img/carousel-3.jpg' %}" alt="" loading="lazy" decoding="async">
+                {% include 'includes/home_hero_slide_overlay.html' %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+
+
+
+ <!-- Feature Start -->
+ <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 home-about-copy">
+                <h4 class="section-title">{% if home_about %}{{ home_about.section_title }}{% else %}Why Choose Us!{% endif %}</h4>
+                <h1 class="display-5 mb-4">{% if home_about %}{{ home_about.heading }}{% else %}Why You Should Trust Us? Learn More About Us!{% endif %}</h1>
+                <div class="mb-4">{% if home_about %}{{ home_about.body|html_or_linebreaks }}{% else %}<p>We are committed to biblical teaching, loving community, and practical support for every stage of life.</p>{% endif %}</div>
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="d-flex align-items-start">
+                            <img
+                                class="flex-shrink-0 home-about-point-icon"
+                                src="{% if home_about and home_about.point_1_icon %}{{ home_about.point_1_icon.url }}{% else %}{% static 'img/icons/icon-2.png' %}{% endif %}"
+                                alt="Icon">
+                            <div class="ms-4">
+                                <h3>{% if home_about %}{{ home_about.point_1_title }}{% else %}Design Approach{% endif %}</h3>
+                                <div class="mb-0">{% if home_about %}{{ home_about.point_1_body|html_or_linebreaks }}{% else %}<p class="mb-0">We prayerfully plan every program to serve people with excellence.</p>{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-start">
+                            <img
+                                class="flex-shrink-0 home-about-point-icon"
+                                src="{% if home_about and home_about.point_2_icon %}{{ home_about.point_2_icon.url }}{% else %}{% static 'img/icons/icon-3.png' %}{% endif %}"
+                                alt="Icon">
+                            <div class="ms-4">
+                                <h3>{% if home_about %}{{ home_about.point_2_title }}{% else %}Innovative Solutions{% endif %}</h3>
+                                <div class="mb-0">{% if home_about %}{{ home_about.point_2_body|html_or_linebreaks }}{% else %}<p class="mb-0">We use relevant and creative methods to share Christ effectively.</p>{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 home-about-media">
+                <div class="feature-img">
+                    <img class="img-fluid" src="{% if home_about and home_about.image_1 %}{{ home_about.image_1.url }}{% else %}{% static 'img/about-2.jpg' %}{% endif %}" alt="">
+                    <img class="img-fluid" src="{% if home_about and home_about.image_2 %}{{ home_about.image_2.url }}{% else %}{% static 'img/about-1.jpg' %}{% endif %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature End -->
+
+
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <h4 class="section-title">{% if home_services %}{{ home_services.section_title }}{% else %}Our Services{% endif %}</h4>
+                <h1 class="display-5 mb-4">{% if home_services %}{{ home_services.heading }}{% else %}Programs for children, teens, and adults{% endif %}</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item service-item-home d-flex position-relative text-center h-100">
+                        <img class="bg-img" src="{% if home_services and home_services.card_1_bg_image %}{{ home_services.card_1_bg_image.url }}{% else %}{% static 'img/service-1.jpg' %}{% endif %}" alt="">
+                        <div class="service-text p-5">
+                            <img class="mb-4 home-services-icon" src="{% if home_services and home_services.card_1_icon %}{{ home_services.card_1_icon.url }}{% else %}{% static 'img/icons/icon-5.png' %}{% endif %}" alt="Icon">
+                            <h3 class="mb-3">{% if home_services %}{{ home_services.card_1_title }}{% else %}Children Service{% endif %}</h3>
+                            <div class="mb-0 home-services-card__body">{% if home_services %}{{ home_services.card_1_body|html_or_linebreaks }}{% else %}<p class="mb-0">Programs that help children know God, grow in faith, and build friendships.</p>{% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item service-item-home d-flex position-relative text-center h-100">
+                        <img class="bg-img" src="{% if home_services and home_services.card_2_bg_image %}{{ home_services.card_2_bg_image.url }}{% else %}{% static 'img/service-1.jpg' %}{% endif %}" alt="">
+                        <div class="service-text p-5">
+                            <img class="mb-4 home-services-icon" src="{% if home_services and home_services.card_2_icon %}{{ home_services.card_2_icon.url }}{% else %}{% static 'img/icons/icon-5.png' %}{% endif %}" alt="Icon">
+                            <h3 class="mb-3">{% if home_services %}{{ home_services.card_2_title }}{% else %}Teens Service{% endif %}</h3>
+                            <div class="mb-0 home-services-card__body">{% if home_services %}{{ home_services.card_2_body|html_or_linebreaks }}{% else %}<p class="mb-0">A space for teens to discover purpose, build character, and follow Christ.</p>{% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item service-item-home d-flex position-relative text-center h-100">
+                        <img class="bg-img" src="{% if home_services and home_services.card_3_bg_image %}{{ home_services.card_3_bg_image.url }}{% else %}{% static 'img/service-2.jpg' %}{% endif %}" alt="">
+                        <div class="service-text p-5">
+                            <img class="mb-4 home-services-icon" src="{% if home_services and home_services.card_3_icon %}{{ home_services.card_3_icon.url }}{% else %}{% static 'img/icons/icon-6.png' %}{% endif %}" alt="Icon">
+                            <h3 class="mb-3">{% if home_services %}{{ home_services.card_3_title }}{% else %}Adults Service{% endif %}</h3>
+                            <div class="mb-0 home-services-card__body">{% if home_services %}{{ home_services.card_3_body|html_or_linebreaks }}{% else %}<p class="mb-0">Discipleship and fellowship opportunities for adults in every life stage.</p>{% endif %}</div>
+                        </div>
+                    </div>
+                </div>             
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    
+
+
+    
+
+
+    <!-- Events Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-start mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <h4 class="section-title">Upcoming Events</h4>
+                <h1 class="display-5 mb-4">Join Us For Worship And Community</h1>
+            </div>
+            <div class="row g-3 home-events-row">
+                {% for event in home_upcoming_events %}
+                <div class="col-12 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <article class="home-events-card">
+                        {% if event.image %}
+                        <img class="home-events-card__image" src="{{ event.image.url }}" alt="{{ event.title }}">
+                        {% else %}
+                        <img class="home-events-card__image" src="/media/pastorate/easter2.png" alt="Event poster">
+                        {% endif %}
+                        <div class="home-events-card__body">
+                            <h3 class="home-events-card__title">{{ event.title }}</h3>
+                            {% if event.organizer %}
+                            <p class="home-events-card__meta">{{ event.organizer }}</p>
+                            {% endif %}
+                            <p class="home-events-card__date">{{ event.start_at|date:"M d, Y" }}</p>
+                            <p class="home-events-card__place">{% if event.venue %}{{ event.venue }}{% else %}Nairobi, Kenya{% endif %}</p>
+                        </div>
+                        <a class="home-events-card__cta" href="{% if event.button_url %}{{ event.button_url }}{% else %}#{% endif %}">{{ event.button_text }}</a>
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="mb-0">No upcoming events available.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Events End -->
+
+
+
+
+    
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function () {
+        var mobileBreakpoint = 992;
+        var row = document.querySelector(".home-events-row");
+        if (!row) return;
+
+        var timer = null;
+        var currentIndex = 0;
+        var isResetting = false;
+        var hasClone = false;
+
+        function stopAutoSwipe() {
+            if (timer) {
+                window.clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function getSlides() {
+            return Array.prototype.slice.call(row.querySelectorAll('[class*="col-"]'));
+        }
+
+        function ensureLoopClone() {
+            if (hasClone) return;
+            var slides = getSlides();
+            if (!slides.length) return;
+            var clone = slides[0].cloneNode(true);
+            clone.classList.add("home-events-clone");
+            row.appendChild(clone);
+            hasClone = true;
+        }
+
+        function removeLoopClone() {
+            var clone = row.querySelector(".home-events-clone");
+            if (clone) clone.remove();
+            hasClone = false;
+        }
+
+        function scrollToIndex(index, smooth) {
+            var slides = getSlides();
+            if (!slides.length) return;
+            currentIndex = ((index % slides.length) + slides.length) % slides.length;
+            row.scrollTo({
+                left: slides[currentIndex].offsetLeft,
+                behavior: smooth ? "smooth" : "auto"
+            });
+        }
+
+        function goToNextSlide() {
+            var slides = getSlides();
+            if (!slides.length || isResetting) return;
+
+            var realCount = hasClone ? slides.length - 1 : slides.length;
+            if (currentIndex < realCount - 1) {
+                currentIndex += 1;
+                row.scrollTo({ left: slides[currentIndex].offsetLeft, behavior: "smooth" });
+                return;
+            }
+
+            // Move left to cloned first card (never reverse),
+            // then jump silently back to real first card.
+            isResetting = true;
+            currentIndex = realCount;
+            row.scrollTo({ left: slides[currentIndex].offsetLeft, behavior: "smooth" });
+            window.setTimeout(function () {
+                row.scrollTo({ left: slides[0].offsetLeft, behavior: "auto" });
+                currentIndex = 0;
+                isResetting = false;
+            }, 650);
+        }
+
+        function startAutoSwipe() {
+            stopAutoSwipe();
+            if (window.innerWidth >= mobileBreakpoint) return;
+            ensureLoopClone();
+
+            timer = window.setInterval(function () {
+                goToNextSlide();
+            }, 3200);
+        }
+
+        row.addEventListener("touchstart", stopAutoSwipe, { passive: true });
+        row.addEventListener("touchend", function () {
+            window.setTimeout(startAutoSwipe, 1200);
+        }, { passive: true });
+        window.addEventListener("resize", function () {
+            if (window.innerWidth >= mobileBreakpoint) {
+                removeLoopClone();
+            } else {
+                ensureLoopClone();
+            }
+            scrollToIndex(0, false);
+            startAutoSwipe();
+        });
+        if (window.innerWidth < mobileBreakpoint) ensureLoopClone();
+        scrollToIndex(0, false);
+        startAutoSwipe();
+    })();
+</script>
+{% endblock %}

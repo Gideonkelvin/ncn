@@ -1,0 +1,574 @@
+/**
+ * NCN Typography System — unified scale (Inter + Plus Jakarta Sans)
+ * Hierarchy: H1 page/hero · H2 section · H3 card/subsection · H4/H5 labels · body scale
+ */
+
+:root {
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Plus Jakarta Sans", var(--font-sans);
+
+    /* Core scale (rem) */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-md: 1.0625rem;
+    --text-lg: 1.125rem;
+
+    /* Heading scale — single source of truth */
+    --font-size-h1: clamp(2.125rem, 1.5rem + 2vw, 3.25rem);
+    --font-size-hero-lead: clamp(1.125rem, 1rem + 0.65vw, 1.5rem);
+    /* Home sections + ministry pages (not hero) */
+    --font-size-section-heading: clamp(1.75rem, 1.35rem + 1.35vw, 2.375rem);
+    --font-size-section-kicker: 0.8125rem;
+    --font-size-h2: clamp(1.625rem, 1.25rem + 1vw, 2.125rem);
+    --font-size-h3: clamp(1.25rem, 1.1rem + 0.45vw, 1.5rem);
+    --font-size-h4: 1.125rem;
+    --font-size-h5: 1rem;
+    --font-size-h6: 0.9375rem;
+
+    /* Aliases (legacy tokens) */
+    --text-hero: var(--font-size-h1);
+    --text-4xl: var(--font-size-h2);
+    --text-3xl: var(--font-size-h3);
+    --text-2xl: var(--font-size-h4);
+    --text-xl: var(--font-size-h5);
+    --text-5xl: var(--font-size-h1);
+
+    --leading-none: 1.1;
+    --leading-tight: 1.2;
+    --leading-snug: 1.35;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.7;
+
+    --tracking-tighter: -0.04em;
+    --tracking-tight: -0.025em;
+    --tracking-normal: -0.011em;
+    --tracking-wide: 0.04em;
+
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --text-tertiary: #6b7280;
+    --text-muted-saas: #6b7280;
+
+    --heading-color: #000000;
+    --body-color: #000000;
+
+    --space-heading-after: 0.75rem;
+    --space-section-title-after: 1.25rem;
+    --space-paragraph-after: 1rem;
+    --section-gap: clamp(3rem, 2rem + 2vw, 5rem);
+    --block-gap: clamp(1.25rem, 1rem + 0.5vw, 2rem);
+}
+
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-sans) !important;
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: var(--leading-normal);
+    letter-spacing: var(--tracking-normal);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* ─── Heading hierarchy ─── */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+    font-family: var(--font-display) !important;
+    color: var(--heading-color);
+    margin-top: 0;
+}
+
+h1, .h1, .display-1,
+.text-h1, .page-title {
+    font-size: var(--font-size-h1) !important;
+    font-weight: 700;
+    line-height: var(--leading-none);
+    letter-spacing: var(--tracking-tighter);
+    margin-bottom: var(--space-heading-after);
+}
+
+h2, .h2, .display-2,
+.text-h2 {
+    font-size: var(--font-size-h2) !important;
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-section-title-after);
+}
+
+h3, .h3, .display-3,
+.text-h3, .card-title {
+    font-size: var(--font-size-h3) !important;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 0.65rem;
+}
+
+h4, .h4, .display-4, .text-h4 {
+    font-size: var(--font-size-h4) !important;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 0.5rem;
+}
+
+h5, .h5, .display-5, .text-h5 {
+    font-size: var(--font-size-h5) !important;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-bottom: 0.5rem;
+}
+
+h6, .h6, .display-6, .text-h6 {
+    font-size: var(--font-size-h6) !important;
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-bottom: 0.4rem;
+}
+
+/* ─── Body text (true black paragraphs site-wide) ─── */
+p, li, dd, blockquote {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: #000000;
+}
+
+.site-shell p:not(.text-muted):not(.text-white),
+.site-shell li:not(.text-muted):not(.text-white),
+.site-shell .card-text,
+.site-shell .give-card__body,
+.site-shell [class*="-prose"],
+.site-shell [class*="-body"]:not(.home-hero):not(.page-header) {
+    color: #000000;
+}
+
+p {
+    margin-bottom: var(--space-paragraph-after);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+.lead, .text-lead {
+    font-size: var(--text-lg) !important;
+    line-height: var(--leading-relaxed);
+    color: var(--body-color);
+}
+
+.text-body-sm, .text-meta, small, .small {
+    font-size: var(--text-sm) !important;
+    line-height: var(--leading-normal);
+}
+
+.text-caption, .text-eyebrow {
+    font-size: var(--text-xs) !important;
+    line-height: var(--leading-normal);
+}
+
+.text-eyebrow,
+.eyebrow {
+    font-family: var(--font-sans) !important;
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.text-muted {
+    color: var(--text-muted-saas) !important;
+}
+
+.fw-normal { font-weight: 400 !important; }
+.fw-medium { font-weight: 500 !important; }
+.fw-semibold { font-weight: 600 !important; }
+.fw-bold { font-weight: 700 !important; }
+
+/* ─── Page sections ─── */
+.page-main section {
+    margin-bottom: var(--section-gap);
+}
+
+.page-main section:last-child {
+    margin-bottom: 0;
+}
+
+section .container > h1:first-child,
+section .container > h2:first-child,
+.gallery-page-intro h1,
+.gallery-detail-header h1 {
+    margin-bottom: var(--space-section-title-after);
+}
+
+/* ─── Section kickers (e.g. “Why Choose Us!”) ─── */
+.section-title,
+h4.section-title {
+    font-size: var(--font-size-section-kicker) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    line-height: var(--leading-normal) !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    color: var(--primary) !important;
+    margin-bottom: 0.65rem !important;
+}
+
+/* Section main headings — same as home “Why You Should Trust Us?” */
+.section-heading,
+h1.display-5,
+.give-lead-title,
+.give-card__title,
+.gallery-page-intro > h1,
+.clubfusion-title,
+.quest-heading,
+.mens-heading,
+.womens-heading,
+.plugin-section-title,
+.egroups-pillar__title,
+.egroups-prose h2,
+.quest-prose h2,
+.mens-prose h2,
+.womens-copy h2,
+.plugin-prose > h2,
+.clubfusion-resources h2,
+.pastorate-team h1.display-5 {
+    font-size: var(--font-size-section-heading) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    line-height: var(--leading-tight) !important;
+    letter-spacing: var(--tracking-tight) !important;
+    color: var(--heading-color) !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.page-header .page-header__subtitle {
+    color: #fff !important;
+}
+
+/* ─── Hero ─── */
+.page-header h1,
+.owl-carousel-inner h1 {
+    font-size: var(--font-size-h1) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    line-height: var(--leading-none) !important;
+    letter-spacing: var(--tracking-tighter) !important;
+    color: #fff !important;
+}
+
+/* Home carousel hero — prominent welcome title */
+.home-hero__title {
+    font-size: clamp(3.05rem, 2.1rem + 3.75vw, 4.5rem) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    line-height: var(--leading-none) !important;
+    letter-spacing: var(--tracking-tighter) !important;
+    color: #fff !important;
+}
+
+.home-hero__lead,
+.home-hero__lead p,
+.home-hero__lead li,
+.page-header p,
+.page-header .fs-3,
+.page-header .fs-5,
+.page-header .fs-5 p,
+.page-header .text-white,
+.owl-carousel-inner p {
+    font-size: var(--font-size-hero-lead) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    letter-spacing: var(--tracking-normal);
+    color: #fff !important;
+}
+
+/* Membership / volunteer subtitle — same section heading size, white on hero */
+.page-header .page-header__subtitle,
+.page-header .page-header__subtitle.section-heading {
+    font-size: var(--font-size-section-heading) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    line-height: var(--leading-tight) !important;
+    letter-spacing: var(--tracking-tight) !important;
+    color: #fff !important;
+}
+
+.home-hero__lead {
+    font-size: clamp(1.1875rem, 1.05rem + 0.75vw, 1.375rem) !important;
+}
+
+.give-card__title--mpesa {
+    color: #2e7d32 !important;
+}
+
+.give-card__title--cheque {
+    color: #c9a227 !important;
+}
+
+.give-lead-text {
+    font-size: var(--text-lg) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    letter-spacing: var(--tracking-normal);
+    color: var(--body-color) !important;
+}
+
+/* ─── Ministry / content blocks (map to H3) ─── */
+.plugin-obj-card h3,
+.plugin-objective h3,
+.pastorate-card__name,
+.events-grid-card__title,
+.home-events-card__title {
+    font-size: var(--font-size-h4) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 600 !important;
+    line-height: var(--leading-snug) !important;
+    letter-spacing: var(--tracking-tight) !important;
+}
+
+.gallery-album-row__title {
+    font-size: var(--text-sm) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 600 !important;
+    line-height: var(--leading-snug) !important;
+    letter-spacing: var(--tracking-normal) !important;
+}
+
+.clubfusion-kicker,
+.events-grid-card__meta,
+.home-events-card__meta {
+    font-size: var(--text-xs) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+}
+
+.clubfusion-body,
+.quest-body,
+.quest-prose,
+.quest-lead,
+.mens-body,
+.mens-prose,
+.womens-body,
+.womens-copy,
+.plugin-body,
+.plugin-prose,
+.plugin-lead,
+.plugin-obj-card-body,
+.plugin-list li,
+.egroups-body,
+.egroups-prose,
+.egroups-pillar-body,
+.pastorate-intro,
+.pastorate-card__bio,
+.pastorate-card__role,
+.plugin-objective p,
+.egroups-pillar__list li {
+    font-size: var(--text-base) !important;
+    line-height: var(--leading-relaxed) !important;
+    color: var(--body-color) !important;
+}
+
+.pastorate-card__role,
+.events-grid-card__place,
+.home-events-card__place,
+.gallery-album-row__date {
+    font-size: var(--text-sm) !important;
+    color: var(--text-tertiary) !important;
+}
+
+.give-card__body {
+    font-size: var(--text-base) !important;
+    line-height: var(--leading-relaxed) !important;
+}
+
+.give-card__icon {
+    font-size: var(--font-size-h4) !important;
+}
+
+/* Gallery — compact album labels on desktop grid */
+@media (min-width: 992px) {
+    .gallery-album-list .gallery-album-row__title {
+        font-size: var(--text-xs) !important;
+    }
+
+    .gallery-album-list .gallery-album-row__date {
+        font-size: var(--text-xs) !important;
+    }
+}
+
+/* Sermon grid — compact tile titles */
+.sermon-grid .sermon-card .card-title {
+    font-size: var(--text-sm) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 500 !important;
+    line-height: 1.3 !important;
+    letter-spacing: var(--tracking-normal) !important;
+    color: var(--text-primary) !important;
+}
+
+.sermon-live-card .card-body h2 {
+    font-size: var(--text-lg) !important;
+    line-height: 1.3 !important;
+}
+
+.sermon-grid .sermon-card .btn-watch,
+.sermon-grid .sermon-meta {
+    font-size: var(--text-sm) !important;
+}
+
+/* ─── UI: buttons, forms, nav ─── */
+.btn {
+    font-family: var(--font-sans) !important;
+    font-size: var(--text-sm) !important;
+    font-weight: 600;
+    letter-spacing: var(--tracking-normal);
+    line-height: 1.25;
+}
+
+.btn-lg {
+    font-size: var(--text-base) !important;
+}
+
+.btn-sm {
+    font-size: var(--text-xs) !important;
+}
+
+.form-control,
+.form-select,
+.form-check-label,
+.input-group-text {
+    font-family: var(--font-sans) !important;
+    font-size: var(--text-base) !important;
+    line-height: 1.5;
+}
+
+.form-floating > label {
+    font-family: var(--font-sans) !important;
+    font-size: var(--text-sm) !important;
+    font-weight: 500;
+    color: var(--text-tertiary);
+}
+
+.navbar .navbar-nav .nav-link {
+    font-size: var(--text-sm) !important;
+    font-weight: 500;
+}
+
+.navbar .dropdown-item {
+    font-size: var(--text-sm) !important;
+}
+
+.offcanvas-title,
+.mobile-nav-drawer .offcanvas-title {
+    font-size: var(--font-size-h5) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 600;
+}
+
+.mobile-nav-drawer .mobile-nav-list .nav-link,
+.mobile-nav-drawer .mobile-nav-list .dropdown-toggle,
+.mobile-nav-drawer .mobile-nav-list .dropdown-item {
+    font-family: var(--font-sans) !important;
+    text-transform: none !important;
+    font-size: var(--text-sm) !important;
+}
+
+/* ─── Tables ─── */
+.table {
+    font-size: var(--text-sm) !important;
+}
+
+.table thead th {
+    font-size: var(--text-xs) !important;
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.table tbody td {
+    font-size: var(--text-sm) !important;
+    color: var(--text-primary);
+}
+
+/* ─── Footer ─── */
+.footer h3,
+.footer .text-light {
+    font-size: var(--font-size-h4) !important;
+    font-family: var(--font-display) !important;
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+}
+
+.footer p,
+.footer .btn.btn-link {
+    font-size: var(--text-sm) !important;
+}
+
+.footer .copyright {
+    font-size: var(--text-sm) !important;
+}
+
+/* ─── Dark / white text on heroes ─── */
+.home-hero,
+.home-hero .home-hero__copy,
+.page-header,
+.owl-carousel-inner {
+    color: #fff;
+}
+
+.text-white h1,
+.text-white h2,
+.text-white h3,
+.text-white h4,
+.text-white p,
+.text-white .display-1,
+.text-white .display-3,
+.home-hero__title,
+.page-header h1,
+.page-header .breadcrumb-item a {
+    color: #fff !important;
+}
+
+.page-header .breadcrumb-item.active,
+.page-header .breadcrumb-item.active a {
+    color: var(--accent) !important;
+}
+
+/* ─── Responsive base size ─── */
+@media (max-width: 991.98px) {
+    body {
+        font-size: 0.9375rem;
+    }
+
+    p, li {
+        font-size: 0.9375rem;
+    }
+}
+
+@media (min-width: 992px) {
+    body {
+        font-size: var(--text-base);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+}

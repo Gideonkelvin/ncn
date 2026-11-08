@@ -1,0 +1,28 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ("core", "0008_mens"),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name="Womens",
+            fields=[
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("heading", models.CharField(max_length=200)),
+                ("body", models.TextField(blank=True, help_text="Main paragraph text. Use line breaks to separate paragraphs.")),
+                ("image", models.ImageField(blank=True, help_text="Optional image for this section.", null=True, upload_to="womens/")),
+                ("image_on_right", models.BooleanField(default=True, help_text="If image is set, show it on the right on large screens.")),
+                ("sort_order", models.PositiveSmallIntegerField(default=0)),
+                ("is_published", models.BooleanField(default=True)),
+            ],
+            options={
+                "verbose_name": "Women's",
+                "verbose_name_plural": "Women's",
+                "ordering": ["sort_order", "id"],
+            },
+        ),
+    ]
+

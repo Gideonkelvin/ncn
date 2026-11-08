@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Plug-In{% endblock %}
+
+{% block extra_css %}
+<style>
+    .plugin-body {
+        background: #fafafa;
+    }
+    .plugin-prose {
+        color: #000000;
+    }
+    .plugin-section-body {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .plugin-section-body p {
+        margin-bottom: 1.1rem;
+    }
+    .plugin-section-body p:last-child {
+        margin-bottom: 0;
+    }
+    .plugin-lead {
+        color: #000000;
+        margin-bottom: 1.75rem !important;
+        padding: 1.1rem 1.2rem;
+        background: linear-gradient(135deg, rgba(106, 27, 154, 0.08), rgba(253, 216, 53, 0.06));
+        border-left: 4px solid var(--primary, #6A1B9A);
+        border-radius: 0 0.35rem 0.35rem 0;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .plugin-lead p {
+        margin-bottom: 0.5rem;
+    }
+    .plugin-lead p:last-child {
+        margin-bottom: 0;
+    }
+    .plugin-section-title {
+        color: #1e3a5f;
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.45rem;
+        border-bottom: 2px solid rgba(106, 27, 154, 0.28);
+        text-align: left;
+    }
+    .plugin-objectives {
+        margin: 1.25rem 0 0.5rem;
+    }
+    .plugin-obj-card {
+        height: 100%;
+        padding: 1.25rem 1.35rem;
+        margin-bottom: 1rem;
+        background: #fff;
+        border-radius: 0;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    @media (min-width: 992px) {
+        .plugin-obj-card {
+            padding: 1.4rem 1.5rem;
+        }
+    }
+    .plugin-obj-card h3 {
+        color: #1e3a5f;
+        margin: 0 0 0.65rem;
+        text-align: left;
+    }
+    .plugin-obj-card-body {
+        text-align: justify;
+        text-justify: inter-word;
+        color: #000000;
+    }
+    .plugin-obj-card-body p {
+        margin-bottom: 0.65rem;
+    }
+    .plugin-obj-card-body p:last-child {
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="plugin-body page-content-section py-5 my-2">
+        <div class="container">
+            <div class="plugin-prose wow fadeInUp" data-wow-delay="0.1s">
+                {% if plugin_lead %}
+                <div class="plugin-lead">{{ plugin_lead.body|html_or_linebreaks }}</div>
+                {% endif %}
+
+                {% if plugin_about %}
+                <h2 class="plugin-section-title">{{ plugin_about.title }}</h2>
+                <div class="plugin-section-body">{{ plugin_about.body|html_or_linebreaks }}</div>
+                {% endif %}
+
+                {% if plugin_obj_title or plugin_objectives %}
+                <h2 class="plugin-section-title">
+                    {% if plugin_obj_title and plugin_obj_title.title %}
+                        {{ plugin_obj_title.title }}
+                    {% else %}
+                        10 Weeks – 4 Objectives!
+                    {% endif %}
+                </h2>
+                {% if plugin_obj_title and plugin_obj_title.body %}
+                <div class="plugin-section-body mb-3">{{ plugin_obj_title.body|html_or_linebreaks }}</div>
+                {% endif %}
+                {% if plugin_objectives %}
+                <div class="row g-3 g-md-4 plugin-objectives">
+                    {% for obj in plugin_objectives %}
+                    <div class="col-md-6 wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                        <div class="plugin-obj-card h-100">
+                            {% if obj.title %}
+                            <h3>{{ obj.title }}</h3>
+                            {% endif %}
+                            <div class="plugin-obj-card-body">{{ obj.body|html_or_linebreaks }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endif %}
+
+                {% if plugin_how %}
+                <h2 class="plugin-section-title">{{ plugin_how.title }}</h2>
+                <div class="plugin-section-body">{{ plugin_how.body|html_or_linebreaks }}</div>
+                {% endif %}
+
+                {% if not plugin_lead and not plugin_about and not plugin_objectives and not plugin_how %}
+                <p class="text-muted mb-0">Plug-In content will appear here after you add <strong>Plugin</strong> blocks in the admin (Lead, About, Objectives heading, Objective cards, How).</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

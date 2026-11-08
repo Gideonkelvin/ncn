@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Events{% endblock %}
+
+{% block extra_css %}
+<style>
+    .events-grid-card {
+        border: 1px solid #ececec;
+        border-radius: 0;
+        background: #fff;
+        overflow: hidden;
+        height: 100%;
+    }
+    .events-grid-card__image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+    }
+    .events-grid-card__body {
+        padding: 0.8rem 0.9rem 0.65rem;
+    }
+    .events-grid-card__title {
+        margin: 0 0 0.2rem;
+        color: #000000;
+    }
+    .events-grid-card__meta {
+        margin: 0;
+        color: var(--text-tertiary, #6b7280);
+    }
+    .events-grid-card__date {
+        margin: 0.35rem 0 0.25rem;
+        color: #c62828;
+        font-weight: 700;
+    }
+    .events-grid-card__place {
+        margin: 0;
+        color: var(--text-tertiary, #6b7280);
+    }
+    .events-grid-card__cta {
+        display: block;
+        margin: 0.7rem 0.9rem 0.9rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 0;
+        background: var(--accent);
+        color: #000000;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="page-content-section py-5 my-2">
+        <div class="container">
+            <h2 class="section-heading mb-4">Upcoming Events</h2>
+            <div class="row g-3">
+                {% for event in upcoming_events %}
+                <div class="col-12 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <article class="events-grid-card">
+                        {% if event.image %}
+                        <img class="events-grid-card__image" src="{{ event.image.url }}" alt="{{ event.title }}">
+                        {% else %}
+                        <img class="events-grid-card__image" src="/media/pastorate/easter2.png" alt="Event poster">
+                        {% endif %}
+                        <div class="events-grid-card__body">
+                            <h3 class="events-grid-card__title">{{ event.title }}</h3>
+                            {% if event.organizer %}
+                            <p class="events-grid-card__meta">{{ event.organizer }}</p>
+                            {% endif %}
+                            <p class="events-grid-card__date">{{ event.start_at|date:"M d, Y" }}</p>
+                            <p class="events-grid-card__place">{% if event.venue %}{{ event.venue }}{% else %}Nairobi, Kenya{% endif %}</p>
+                        </div>
+                        <a class="events-grid-card__cta" href="{% if event.button_url %}{{ event.button_url }}{% else %}#{% endif %}">{{ event.button_text }}</a>
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="mb-0">No upcoming events available.</p>
+                </div>
+                {% endfor %}
+            </div>
+            <h2 class="section-heading mt-5 mb-4">Past Events</h2>
+            <div class="row g-3">
+                {% for event in past_events %}
+                <div class="col-12 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <article class="events-grid-card">
+                        {% if event.image %}
+                        <img class="events-grid-card__image" src="{{ event.image.url }}" alt="{{ event.title }}">
+                        {% else %}
+                        <img class="events-grid-card__image" src="/media/pastorate/easter2.png" alt="Event poster">
+                        {% endif %}
+                        <div class="events-grid-card__body">
+                            <h3 class="events-grid-card__title">{{ event.title }}</h3>
+                            {% if event.organizer %}
+                            <p class="events-grid-card__meta">{{ event.organizer }}</p>
+                            {% endif %}
+                            <p class="events-grid-card__date">{{ event.start_at|date:"M d, Y" }}</p>
+                            <p class="events-grid-card__place">{% if event.venue %}{{ event.venue }}{% else %}Nairobi, Kenya{% endif %}</p>
+                        </div>
+                        <a class="events-grid-card__cta" href="{% if event.button_url %}{{ event.button_url }}{% else %}#{% endif %}">{{ event.button_text }}</a>
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="mb-0">No past events available.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

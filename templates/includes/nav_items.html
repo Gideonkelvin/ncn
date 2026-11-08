@@ -1,0 +1,37 @@
+{% with u=request.resolver_match.url_name %}
+<div class="nav-item dropdown mobile-nav-dropdown is-open">
+    <a href="#" class="nav-link dropdown-toggle {% if u == 'pastorate' or u == 'contact' %}active{% endif %}" role="button" aria-expanded="true">About</a>
+    <div class="dropdown-menu border-0 m-0">
+        <a href="{% url 'pastorate' %}" class="dropdown-item {% if u == 'pastorate' %}active{% endif %}">Pastorate</a>
+        <a href="{% url 'contact' %}" class="dropdown-item {% if u == 'contact' %}active{% endif %}">Contact</a>
+    </div>
+</div>
+<div class="nav-item dropdown mobile-nav-dropdown is-open">
+    <a href="#" class="nav-link dropdown-toggle {% if u == 'ministries_egroups' or u == 'ministries_plugin' or u == 'ministries_club_fusion' or u == 'ministries_quest' or u == 'ministries_mens_ministry' or u == 'ministries_womens_ministry' %}active{% endif %}" role="button" aria-expanded="true">Ministries</a>
+    <div class="dropdown-menu border-0 m-0">
+        <a href="{% url 'ministries_egroups' %}" class="dropdown-item {% if u == 'ministries_egroups' %}active{% endif %}">E-Groups</a>
+        <a href="{% url 'ministries_plugin' %}" class="dropdown-item {% if u == 'ministries_plugin' %}active{% endif %}">Plugin</a>
+        <a href="{% url 'ministries_club_fusion' %}" class="dropdown-item {% if u == 'ministries_club_fusion' %}active{% endif %}">Club Fusion</a>
+        <a href="{% url 'ministries_quest' %}" class="dropdown-item {% if u == 'ministries_quest' %}active{% endif %}">Quest</a>
+        <a href="{% url 'ministries_mens_ministry' %}" class="dropdown-item {% if u == 'ministries_mens_ministry' %}active{% endif %}">Men's ministry</a>
+        <a href="{% url 'ministries_womens_ministry' %}" class="dropdown-item {% if u == 'ministries_womens_ministry' %}active{% endif %}">Women's ministry</a>
+    </div>
+</div>
+<div class="nav-item dropdown mobile-nav-dropdown is-open">
+    <a href="#" class="nav-link dropdown-toggle {% if u == 'resources_sermon' or u == 'resources_bible_study' %}active{% endif %}" role="button" aria-expanded="true">Resources</a>
+    <div class="dropdown-menu border-0 m-0">
+        <a href="{% url 'resources_sermon' %}" class="dropdown-item {% if u == 'resources_sermon' %}active{% endif %}">Sermon</a>
+        <a href="{% url 'resources_bible_study' %}" class="dropdown-item {% if u == 'resources_bible_study' %}active{% endif %}">Bible study</a>
+    </div>
+</div>
+<div class="nav-item dropdown mobile-nav-dropdown is-open">
+    <a href="#" class="nav-link dropdown-toggle {% if u == 'engage_membership' or u == 'engage_volunteer' or u == 'engage_events' or u == 'engage_gallery' or u == 'engage_gallery_detail' %}active{% endif %}" role="button" aria-expanded="true">Engage</a>
+    <div class="dropdown-menu border-0 m-0">
+        <a href="{% url 'engage_membership' %}" class="dropdown-item {% if u == 'engage_membership' %}active{% endif %}">Membership</a>
+        <a href="{% url 'engage_volunteer' %}" class="dropdown-item {% if u == 'engage_volunteer' %}active{% endif %}">Volunteer</a>
+        <a href="{% url 'engage_events' %}" class="dropdown-item {% if u == 'engage_events' %}active{% endif %}">Events</a>
+        <a href="{% url 'engage_gallery' %}" class="dropdown-item {% if u == 'engage_gallery' or u == 'engage_gallery_detail' %}active{% endif %}">Gallery</a>
+    </div>
+</div>
+<a href="{% url 'give' %}" class="nav-item nav-link {% if u == 'give' %}active{% endif %}">Give</a>
+{% endwith %}

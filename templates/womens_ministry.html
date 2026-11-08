@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Women's Ministry{% endblock %}
+
+{% block extra_css %}
+<style>
+    .womens-page {
+        background: #fafafa;
+    }
+    .womens-block {
+        margin-bottom: 1.8rem;
+    }
+    .womens-heading {
+        margin: 0 0 0.65rem;
+        color: #1e3a5f;
+    }
+    .womens-copy {
+        color: #000000;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    .womens-collage {
+        position: relative;
+        max-width: 500px;
+        margin-inline: auto;
+    }
+    .womens-collage-card {
+        position: relative;
+        border-radius: 0.3rem;
+        background: #ffffff;
+        padding: 0.45rem;
+        outline: 1px solid #d9d9d9;
+        margin: 0;
+    }
+    .womens-collage-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0.2rem;
+    }
+    .womens-collage-card--top {
+        width: min(96%, 430px);
+        margin-left: auto;
+        transform: rotate(-3deg);
+        z-index: 2;
+    }
+    .womens-collage-card--bottom {
+        margin-top: -1%;
+        width: min(88%, 380px);
+        margin-left: auto;
+        margin-right: 2rem;
+        transform: rotate(2deg);
+        z-index: 1;
+    }
+    @media (max-width: 991.98px) {
+        .womens-collage { margin-top: 1rem; }
+    }
+    @media (max-width: 575.98px) {
+        .womens-collage-card--bottom {
+            margin-right: 0.6rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="womens-page page-content-section py-5 my-2">
+        <div class="container">
+            {% for section in womens_sections %}
+            <div class="womens-block wow fadeInUp" data-wow-delay="0.1s">
+                {% if section.image or section.image_secondary %}
+                <div class="row g-4 g-lg-5 align-items-start">
+                    {% if section.image_on_right %}
+                    <div class="col-lg-7">
+                        <h2 class="womens-heading">{{ section.heading }}</h2>
+                        {% if section.body %}
+                        <div class="womens-copy">{{ section.body|html_or_linebreaks_br }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="womens-collage">
+                            {% if section.image %}
+                            <figure class="womens-collage-card womens-collage-card--top mb-0">
+                                <img src="{{ section.image.url }}" alt="{{ section.heading }}" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                            {% if section.image_secondary %}
+                            <figure class="womens-collage-card womens-collage-card--bottom mb-0">
+                                <img src="{{ section.image_secondary.url }}" alt="{{ section.heading }} secondary" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-lg-5">
+                        <div class="womens-collage">
+                            {% if section.image %}
+                            <figure class="womens-collage-card womens-collage-card--top mb-0">
+                                <img src="{{ section.image.url }}" alt="{{ section.heading }}" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                            {% if section.image_secondary %}
+                            <figure class="womens-collage-card womens-collage-card--bottom mb-0">
+                                <img src="{{ section.image_secondary.url }}" alt="{{ section.heading }} secondary" loading="lazy" decoding="async">
+                            </figure>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <h2 class="womens-heading">{{ section.heading }}</h2>
+                        {% if section.body %}
+                        <div class="womens-copy">{{ section.body|html_or_linebreaks_br }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="womens-copy">
+                    <h2 class="womens-heading">{{ section.heading }}</h2>
+                    {% if section.body %}
+                    <div>{{ section.body|html_or_linebreaks_br }}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="womens-copy">
+                <p class="mb-0">Women's Ministry content will appear here after you add sections in the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

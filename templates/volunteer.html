@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Volunteer{% endblock %}
+
+{% block extra_css %}
+{% if volunteer.hero_image %}
+<style>
+    .page-header.page-header--volunteer {
+        background: linear-gradient(210deg, rgba(0, 0, 0, .52), rgba(106, 27, 154, .76)), url('{{ volunteer.hero_image.url }}') center center no-repeat !important;
+        background-size: cover !important;
+    }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid page-header page-header--volunteer py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-9 col-xl-8">
+                    <h1 class="display-3 text-white animated slideInDown mb-3">
+                        {% if volunteer %}{{ volunteer.heading }}{% else %}Volunteer{% endif %}
+                    </h1>
+                    {% if volunteer.subtitle %}
+                    <p class="page-header__subtitle section-heading text-white mb-4">{{ volunteer.subtitle }}</p>
+                    {% elif not volunteer %}
+                    <p class="page-header__subtitle section-heading text-white mb-4">Serving God with Your Gifts</p>
+                    {% endif %}
+                    <div class="fs-5 text-white mb-4" style="line-height: 1.65;">
+                        {% if volunteer %}
+                        {{ volunteer.body|html_or_linebreaks }}
+                        {% else %}
+                        <p>Volunteering at Nairobi Chapel Waiyaki Way provides an opportunity to use your gifts and talents to serve God and others. Whether in ministries, events, or outreach, there’s a place for you to make a meaningful impact and be part of our mission to serve the community.</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% if volunteer.button_url %}{{ volunteer.button_url }}{% else %}{% url 'contact' %}{% endif %}" class="btn btn-primary py-3 px-5">
+                        {% if volunteer %}{{ volunteer.button_text }}{% else %}Volunteer{% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load site_html %}
+<div class="owl-carousel-inner">    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-11 col-lg-8 col-xl-7 home-hero__copy">
+                <h1 class="display-1 text-white home-hero__title">{% if home_hero %}{{ home_hero.title }}{% else %}Welcome to Nairobi Chapel Ngong Hills{% endif %}</h1>
+                <div class="fw-medium text-white mb-3 mb-md-4 pb-2 home-hero__lead">{% if home_hero %}{{ home_hero.body|html_or_linebreaks }}{% else %}<p>A Christ-centered community growing in faith, love, and service.</p>{% endif %}</div>
+                <a href="{% if home_hero and home_hero.button_url %}{{ home_hero.button_url }}{% else %}{% url 'contact' %}{% endif %}" class="btn btn-primary py-2 py-md-3 px-4 px-md-5">{% if home_hero %}{{ home_hero.button_text }}{% else %}Learn More{% endif %}</a>
+            </div>
+        </div>
+    </div>
+</div>

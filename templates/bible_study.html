@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Bible Study{% endblock %}
+
+{% block content %}
+    <section class="page-content-section py-5 my-2">
+        <div class="container">
+            <div class="wow fadeInUp" data-wow-delay="0.1s">
+                <h2 class="section-heading mb-4">{{ bible_study_content.heading|default:"Bible Study" }}</h2>
+                {% if bible_study_content and bible_study_content.body %}
+                <div class="mb-4">{{ bible_study_content.body|html_or_linebreaks }}</div>
+                {% else %}
+                <p class="mb-4">Bible Study content will appear here after you add it from the admin panel.</p>
+                {% endif %}
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Notes</th>
+                                <th scope="col">Bible Study Guide</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in bible_study_guides %}
+                            <tr>
+                                <td>{{ row.study_date|date:"M d, Y" }}</td>
+                                <td>{{ row.notes }}</td>
+                                <td>
+                                    {% if row.guide_file %}
+                                    <a href="{{ row.guide_file.url }}" download>Download</a>
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">No Bible Study guides added yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

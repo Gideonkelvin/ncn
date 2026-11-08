@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static site_html %}
+
+{% block title %}Nairobi Chapel Ngong Hills — Membership{% endblock %}
+
+{% block extra_css %}
+{% if membership.hero_image %}
+<style>
+    .page-header.page-header--membership {
+        background: linear-gradient(rgba(106, 27, 154, .78), rgba(0, 0, 0, .52)), url('{{ membership.hero_image.url }}') center center no-repeat !important;
+        background-size: cover !important;
+    }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid page-header page-header--membership py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-9 col-xl-8">
+                    <h1 class="display-3 text-white animated slideInDown mb-3">
+                        {% if membership %}{{ membership.heading }}{% else %}Membership{% endif %}
+                    </h1>
+                    {% if membership.subtitle %}
+                    <p class="page-header__subtitle section-heading text-white mb-4">{{ membership.subtitle }}</p>
+                    {% elif not membership %}
+                    <p class="page-header__subtitle section-heading text-white mb-4">Growing in Faith, Together</p>
+                    {% endif %}
+                    <div class="fs-5 text-white mb-4" style="line-height: 1.65;">
+                        {% if membership %}
+                        {{ membership.body|html_or_linebreaks }}
+                        {% else %}
+                        <p>Become a part of our vibrant church community. Membership is a way to formally express your commitment to our church family and connect with others on a deeper level. It’s a step towards deeper discipleship and service within our community.</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% if membership.button_url %}{{ membership.button_url }}{% else %}{% url 'contact' %}{% endif %}" class="btn btn-primary py-3 px-5">
+                        {% if membership %}{{ membership.button_text }}{% else %}Karibu{% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
