@@ -185,23 +185,32 @@ WSGI_APPLICATION = 'rose_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-# cPanel: set DATABASE_URL to MySQL from "MySQL Databases" (mysql://user:pass@localhost:3306/dbname)
-# Leave unset to use SQLite (db.sqlite3) — fine for small sites if the file is backed up.
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-if DATABASE_URL:
-    import dj_database_url
+#
+# Production (Truehost cPanel Setup Python App): MySQL via DB_NAME, DB_USER,
+# DB_PASSWORD, DB_HOST, DB_PORT — no credentials hardcoded.
+# Local development: set DB_ENGINE=sqlite in .env to use SQLite.
+_db_engine = os.environ.get("DB_ENGINE", "").strip().lower()
 
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-        )
-    }
-else:
+if _db_engine == "sqlite":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("DB_NAME", "").strip(),
+            "USER": os.environ.get("DB_USER", "").strip(),
+            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+            "HOST": os.environ.get("DB_HOST", "localhost").strip() or "localhost",
+            "PORT": os.environ.get("DB_PORT", "3306").strip() or "3306",
+            "CONN_MAX_AGE": 600,
+            "OPTIONS": {
+                "charset": "utf8mb4",
+            },
         }
     }
 
