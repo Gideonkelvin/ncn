@@ -1,0 +1,36 @@
+{# Latest sermons for /sermon/ — two-column grid under navbar #}
+<section class="sermon-youtube-section">
+    <div class="container">
+        <div class="sermon-youtube-toolbar mb-4">
+            <h2 class="sermon-youtube-heading mb-0">Latest sermon</h2>
+        </div>
+
+        {% if youtube_feed_error %}
+        <p class="sermon-youtube-error mb-0">{{ youtube_feed_error }}</p>
+        {% elif sermon_youtube_videos %}
+        <div class="sermon-youtube-grid">
+                {% for video in sermon_youtube_videos %}
+                <article class="sermon-youtube-card">
+                    <a href="{{ video.watch_url }}" class="sermon-youtube-thumb-link" target="_blank" rel="noopener noreferrer">
+                        <div class="sermon-youtube-thumb-wrap">
+                            <img src="{{ video.thumbnail_url }}" alt="" class="sermon-youtube-thumb" loading="lazy" width="480" height="270">
+                            {% if video.duration_label %}
+                            <span class="sermon-youtube-duration">{{ video.duration_label }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="sermon-youtube-meta">
+                        <a href="{{ video.watch_url }}" class="sermon-youtube-title" target="_blank" rel="noopener noreferrer">{{ video.title }}</a>
+                        <p class="sermon-youtube-stats">
+                            {{ video.view_count_label }} views
+                            {% if video.published_at %}<span class="sermon-youtube-dot">•</span> {{ video.published_at|timesince }} ago{% endif %}
+                        </p>
+                    </div>
+                </article>
+                {% endfor %}
+        </div>
+        {% else %}
+        <p class="sermon-youtube-error mb-0">No videos to show yet.</p>
+        {% endif %}
+    </div>
+</section>

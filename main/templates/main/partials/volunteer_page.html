@@ -1,0 +1,33 @@
+{# Volunteer: no top hero; CMS text left, image right (same pattern as membership) #}
+<div class="container-xxl py-5 volunteer-page-section">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-6 order-1 wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="visually-hidden">{{ page_title }}{% if page_subtitle %} — {{ page_subtitle }}{% endif %}</h1>
+                <h2 class="display-5 mb-3">{{ page_title }}</h2>
+                {% if page_subtitle %}
+                <p class="lead text-muted mb-4">{{ page_subtitle }}</p>
+                {% endif %}
+                {% if header_text %}
+                <div class="mb-4">{{ header_text|linebreaks }}</div>
+                {% endif %}
+                {% if content %}
+                <div class="content volunteer-page-section__body">{{ content|safe }}</div>
+                {% endif %}
+                {% if cta_text %}
+                <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+                {% endif %}
+                {% if cta_text_2 %}
+                <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-lg-2">{{ cta_text_2 }}</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 order-2 wow fadeIn" data-wow-delay="0.25s">
+                {% if image_url %}
+                <img class="img-fluid w-100 rounded-3 shadow" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}" style="object-fit: cover; max-height: 520px;">
+                {% else %}
+                <img class="img-fluid w-100 rounded-3 shadow" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088922/group-four-gorgeous-african-american-womans-wear-summer-hat-holding-hands-praying-green-grass-park_ncwcwr.jpg" alt="{{ page_title }}" style="object-fit: cover; max-height: 520px;">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container-fluid page-header page-header--hero-image mb-0">
+        <img class="page-header__hero-img" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="Contact Us">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+        <div class="container py-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white animated slideInDown">Contact Us</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="bg-light d-flex align-items-center w-100 p-4 mb-4">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-map-marker-alt text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Location</p>
+                                <h3 class="mb-0">{{ site_settings.contact_location|default:"Johannesburg" }}</h3>
+                            </div>
+                        </div>
+                        <div class="bg-light d-flex align-items-center w-100 p-4 mb-4">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-envelope-open text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Email</p>
+                                <h3 class="mb-0">{{ site_settings.contact_email|default:"info@rosecolouredlens.org" }}</h3>
+                            </div>
+                        </div>
+                        <div class="bg-light d-flex align-items-center w-100 p-4">
+                            <div class="d-flex flex-shrink-0 align-items-center justify-content-center bg-dark" style="width: 55px; height: 55px;">
+                                <i class="fa fa-phone text-primary"></i>
+                            </div>
+                            <div class="ms-4">
+                                <p class="mb-2">Phone</p>
+                                <h3 class="mb-0">{{ site_settings.contact_phone|default:"+27 82 670 9690" }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    {% if page_copy %}<p class="mb-4">{{ page_copy.body }}</p>{% endif %}
+                    <div id="contact-form-message" class="alert d-none mb-3" role="alert"></div>
+                    <form id="contact-form" method="post" action="">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                    <label for="name">Your Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                    <label for="email">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                                    <label for="subject">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="message" id="message" placeholder="Leave a message here" style="height: 100px" required></textarea>
+                                    <label for="message">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button id="contact-submit-btn" class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if site_settings.map_embed_url %}
+    <div class="container-xxl pt-5 px-0 wow fadeIn" data-wow-delay="0.1s">
+        <iframe class="w-100 mb-n2" style="height: 450px;" title="Map" src="{{ site_settings.map_embed_url }}" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+    {% endif %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('contact-form');
+    var btn = document.getElementById('contact-submit-btn');
+    var msgEl = document.getElementById('contact-form-message');
+    var defaultText = 'Send Message';
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (btn.disabled) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        msgEl.classList.add('d-none');
+
+        var formData = new FormData(form);
+        formData.append('csrfmiddlewaretoken', form.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        fetch('', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(function(response) {
+            return response.json().then(function(data) {
+                if (!response.ok) throw data;
+                return data;
+            });
+        })
+        .then(function(data) {
+            btn.textContent = 'Sent';
+            msgEl.textContent = data.message || 'Thank you. Your message has been sent.';
+            msgEl.className = 'alert alert-success mb-3';
+            msgEl.classList.remove('d-none');
+            form.reset();
+            setTimeout(function() {
+                btn.textContent = defaultText;
+                btn.disabled = false;
+            }, 2000);
+        })
+        .catch(function(err) {
+            btn.textContent = defaultText;
+            btn.disabled = false;
+            msgEl.textContent = (err && err.message) ? err.message : 'Something went wrong. Please try again.';
+            msgEl.className = 'alert alert-danger mb-3';
+            msgEl.classList.remove('d-none');
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

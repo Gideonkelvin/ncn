@@ -1,0 +1,29 @@
+{# Women's Ministry (Glow): text left, polaroid-style photo collage right — no full-page hero #}
+{% with top_img=image_url|default:"https://res.cloudinary.com/dqng2ekwm/image/upload/v1774086292/world-book-day-celebration_1_v5bea0.jpg" bottom_img="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088922/group-four-gorgeous-african-american-womans-wear-summer-hat-holding-hands-praying-green-grass-park_ncwcwr.jpg" %}
+<div class="container-xxl py-5 womens-ministry-page">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 womens-ministry-page__text wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="display-5 mb-4 womens-ministry-page__heading" id="womens-ministry">{{ page_title }}</h1>
+                {% if content %}
+                <div class="content womens-ministry-page__body">{{ content|safe }}</div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 womens-ministry-page__media wow fadeIn" data-wow-delay="0.2s">
+                <div class="womens-ministry-collage" role="group" aria-label="Women's ministry photos">
+                    <figure class="womens-ministry-polaroid womens-ministry-polaroid--top">
+                        <span class="womens-ministry-polaroid__inner">
+                            <img src="{{ top_img }}" alt="{{ alt_text|default:'Women celebrating and growing together in faith' }}" width="400" height="500" loading="lazy" decoding="async">
+                        </span>
+                    </figure>
+                    <figure class="womens-ministry-polaroid womens-ministry-polaroid--bottom">
+                        <span class="womens-ministry-polaroid__inner">
+                            <img src="{{ bottom_img }}" alt="Women in fellowship outdoors" width="400" height="500" loading="lazy" decoding="async">
+                        </span>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

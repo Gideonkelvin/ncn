@@ -1,0 +1,13 @@
+{# One overlapping pair (same two images as main layout). Expects top_img, bottom_img, alt_text in context. #}
+<div class="mens-ministry-polaroid-pair womens-ministry-collage" role="group" aria-label="{% if pair_label %}{{ pair_label }}{% else %}Men&#8217;s ministry photos{% endif %}">
+    <figure class="womens-ministry-polaroid womens-ministry-polaroid--top">
+        <span class="womens-ministry-polaroid__inner">
+            <img src="{{ top_img }}" alt="{{ alt_text|default:'Men growing in faith and biblical manhood' }}" width="400" height="500" loading="lazy" decoding="async">
+        </span>
+    </figure>
+    <figure class="womens-ministry-polaroid womens-ministry-polaroid--bottom">
+        <span class="womens-ministry-polaroid__inner">
+            <img src="{{ bottom_img }}" alt="Men in fellowship and discipleship" width="400" height="500" loading="lazy" decoding="async">
+        </span>
+    </figure>
+</div>

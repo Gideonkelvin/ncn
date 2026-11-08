@@ -1,0 +1,123 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-1 text-white animated slideInDown">Blog</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Blog</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <nav class="blog-category-bar wow fadeInUp" data-wow-delay="0.1s">
+                        <a href="?" class="blog-cat-link active">All</a>
+                        {% for cat in categories %}<a href="?category={{ cat.slug }}" class="blog-cat-link">{{ cat.name }}</a>{% endfor %}
+                    </nav>
+                    <div class="row g-4" id="blog-posts-container">
+                        {% for post in posts %}
+                        <div class="col-md-6 wow fadeInUp" data-wow-delay="0.15s">
+                            <article class="blog-card">
+                                {% if post.featured_image_url %}<img class="blog-card-img" src="{{ post.featured_image_url }}" alt="{{ post.title }}">{% endif %}
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title">{{ post.title }}</h3>
+                                    <p class="blog-card-date">{% if post.published_at %}{{ post.published_at|date:"F j, Y" }}{% endif %}</p>
+                                    <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+                                    <a href="{% url 'blog_detail' post.slug %}" class="blog-card-link">Read More</a>
+                                </div>
+                            </article>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if has_more %}
+                    <div class="text-center mt-4" id="load-more-container">
+                        <button id="load-more-btn" class="btn btn-primary" data-next-page="{{ next_page }}">Load More</button>
+                    </div>
+                    {% endif %}
+                </div>
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (!loadMoreBtn) return;
+    
+    loadMoreBtn.addEventListener('click', function() {
+        const nextPage = this.getAttribute('data-next-page');
+        if (!nextPage) return;
+        
+        this.disabled = true;
+        this.textContent = 'Loading...';
+        
+        fetch(`/blog?page=${nextPage}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('blog-posts-container');
+            data.posts.forEach(function(post) {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 wow fadeInUp';
+                col.setAttribute('data-wow-delay', '0.15s');
+                col.innerHTML = `
+                    <article class="blog-card">
+                        ${post.featured_image_url ? `<img class="blog-card-img" src="${post.featured_image_url}" alt="${post.title}">` : ''}
+                        <div class="blog-card-body">
+                            <h3 class="blog-card-title">${post.title}</h3>
+                            <p class="blog-card-date">${post.published_at}</p>
+                            <p class="blog-card-excerpt">${post.excerpt}</p>
+                            <a href="${post.detail_url}" class="blog-card-link">Read More</a>
+                        </div>
+                    </article>
+                `;
+                container.appendChild(col);
+            });
+            
+            if (data.has_more) {
+                this.setAttribute('data-next-page', data.next_page);
+                this.disabled = false;
+                this.textContent = 'Load More';
+            } else {
+                document.getElementById('load-more-container').remove();
+            }
+            
+            // Reinitialize WOW animations for new elements
+            if (typeof WOW !== 'undefined') {
+                new WOW().init();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading more posts:', error);
+            this.disabled = false;
+            this.textContent = 'Load More';
+            alert('Failed to load more posts. Please try again.');
+        });
+    });
+});
+</script>
+{% endblock %}
+                <aside class="col-lg-4">
+                    <div class="blog-sidebar wow fadeInUp" data-wow-delay="0.2s">
+                        <h2 class="blog-sidebar-title">Rose Coloured Lens Updates</h2>
+                        <p class="blog-sidebar-subtitle">All the latest news, in one place.</p>
+                        <hr>
+                        <h3 class="blog-sidebar-section-title">Visual Health &amp; Advocacy</h3>
+                        {% for p in posts|slice:":5" %}
+                        <a href="{% url 'blog_detail' p.slug %}" class="blog-sidebar-item">
+                            {% if p.featured_image_url %}<img class="sidebar-thumb" src="{{ p.featured_image_url }}" alt="">{% endif %}
+                            <span class="sidebar-text">{{ p.title }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+{% endblock %}

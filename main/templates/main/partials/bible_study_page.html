@@ -1,0 +1,65 @@
+{# /bible-study/ — intro left + image right; Resources table below (no hero) #}
+<div class="container-xxl py-5 bible-study-page">
+    <div class="container">
+        <h1 class="visually-hidden">{{ page_title }}{% if page_subtitle %} — {{ page_subtitle }}{% endif %}</h1>
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="content bible-study-page__intro">
+                    {% if header_text %}
+                    <div class="mb-3">{{ header_text|linebreaks }}</div>
+                    {% endif %}
+                    {% if content %}
+                    {{ content|safe }}
+                    {% endif %}
+                </div>
+                {% if cta_text %}
+                <a href="{{ cta_url }}" class="btn btn-primary py-3 px-5 mt-4">{{ cta_text }}</a>
+                {% endif %}
+                {% if cta_text_2 %}
+                <a href="{{ cta_url_2 }}" class="btn btn-outline-primary py-3 px-5 mt-4 ms-lg-2">{{ cta_text_2 }}</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
+                {% if image_url %}
+                <img class="img-fluid w-100 rounded-3 shadow" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}" style="object-fit: cover; max-height: 520px;">
+                {% else %}
+                <img class="img-fluid w-100 rounded-3 shadow" src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="{{ page_title }}" style="object-fit: cover; max-height: 520px;">
+                {% endif %}
+            </div>
+        </div>
+
+        <section class="bible-study-page__resources mt-5 pt-5" aria-labelledby="bible-study-resources-heading">
+            <h2 class="h3 mb-4" id="bible-study-resources-heading">Resources</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle bible-study-page__table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Details</th>
+                            <th scope="col" class="text-nowrap">View / Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for res in bible_study_resources %}
+                        <tr>
+                            <td>{{ res.session_date|date:"j M Y" }}</td>
+                            <td>{{ res.description }}</td>
+                            <td>
+                                {% if res.document_url %}
+                                <a href="{{ res.document_url }}" class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">View / Download</a>
+                                {% else %}
+                                <span class="text-muted">&mdash;</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-muted">No resources listed yet. Add rows under <strong>Bible study · resource rows</strong> in the admin.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>

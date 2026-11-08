@@ -1,0 +1,107 @@
+{# Club Fusion (teens’ church); distinct clubxp-* styling #}
+<article class="clubxp-page">
+    {% if image_url %}
+    <div class="container-fluid page-header page-header--hero-image mb-0 clubxp-page__hero">
+        <img class="page-header__hero-img" src="{{ image_url }}" alt="{{ alt_text|default:page_title }}">
+        <div class="clubxp-page__hero-overlay"></div>
+        <div class="container py-4 py-lg-5 position-relative" style="z-index: 1;">
+            <h1 class="display-1 text-white clubxp-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="clubxp-page__hero-kicker text-white mt-3 mb-0">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid py-4 py-lg-5 mb-0 clubxp-page__hero clubxp-page__hero--solid">
+        <div class="container py-3 py-lg-4">
+            <h1 class="display-1 text-white clubxp-page__hero-title">{{ page_title }}</h1>
+            {% if page_subtitle %}
+            <p class="clubxp-page__hero-kicker text-white mt-3 mb-0">{{ page_subtitle }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="clubxp-page__main">
+        <div class="container py-4 py-lg-5">
+            <div class="clubxp-prose clubxp-prose--lead">
+                <p><strong>Club Fusion</strong> is our Teens&rsquo; Church here at Nairobi Chapel. We take delight in welcoming every teen into our midst, every Sunday. The Teens Church has various <strong>Programs</strong> designed to nurture, inspire, empower and holistically grow the young adults through the ways of the Lord Jesus Christ. Here are some of our transformational and engaging programs that are packaged for the needs of the teens:</p>
+            </div>
+
+            <section class="clubxp-block" aria-labelledby="clubxp-crossroads">
+                <h2 id="clubxp-crossroads" class="clubxp-block__title">Crossroads</h2>
+                <div class="clubxp-split">
+                    <div class="clubxp-split__text">
+                        <p>This is a 2-year transformational experience that prepares pre-teens for transition into maturity where boys become men and girls into women; from childhood to adulthood. The Program necessitates these transitions through God&rsquo;s word and provides the teens with a better understanding of God and growth in faith. We therefore partner with parents and the community to ensure proper physical, spiritual, emotional and social development of the teens.</p>
+                    </div>
+                    <figure class="clubxp-split__media">
+                        <img src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088922/group-four-gorgeous-african-american-womans-wear-summer-hat-holding-hands-praying-green-grass-park_ncwcwr.jpg" alt="Crossroads — teens ministry" width="640" height="400" loading="lazy" decoding="async" class="clubxp-split__img">
+                    </figure>
+                </div>
+
+                <div class="clubxp-subcard">
+                    <h3 class="clubxp-subcard__title">Crossroad 1 <span class="clubxp-subcard__meta">(12 Year Olds)</span></h3>
+                    <div class="clubxp-split clubxp-split--reverse">
+                        <figure class="clubxp-split__media">
+                            <img src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="Bible study and discipleship" width="640" height="400" loading="lazy" decoding="async" class="clubxp-split__img">
+                        </figure>
+                        <div class="clubxp-split__text">
+                            <p>Is a program that offers discipleship for the pre-teens. At this stage they have begun to ask fundamental questions of life in an aspect of &lsquo;who am I? Why am I here? Do I really matter? What do my friends think of me?&rsquo; We meet every Sunday with our teens during the services and help answer such questions guided by Biblical teachings, personal experiences and wisdom learned over the years. They are also prepared on the developments taking place in their body, the changes and expectations in the world around them. Their annual activities include camp, bible trivia and social justice outreach.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <figure class="clubxp-inline-figure" aria-label="Crossroads ministry">
+                    <img src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1773940927/WhatsApp-Image-2026-03-08-at-18.45.33_bffaps.jpg" alt="Club Fusion Crossroads" width="1200" height="640" loading="lazy" decoding="async">
+                </figure>
+
+                <div class="clubxp-subcard">
+                    <h3 class="clubxp-subcard__title">Crossroad 2 <span class="clubxp-subcard__meta">(13 Year olds)</span></h3>
+                    <p>Is a program that focuses on five units: <strong>1</strong> &ndash; Turning over a new leaf: what it takes to be a follower of Christ, <strong>2</strong> &ndash; Contemporary teen culture: life skills in the teen culture; <strong>3</strong> &ndash; Pink and blue: Sexuality issues <strong>4</strong> &ndash; Who&rsquo;s the boss: family, church and leadership development with an experiential learning expedition, which culminates in the actual <strong>5</strong> &ndash; Rites of Passage experience (camp) at the end of the year that enables the pre-teens mark the actual Rites of Passage and <strong>Heroes:</strong> bible role models to draw life lessons from the Bible.</p>
+                </div>
+            </section>
+
+            <section class="clubxp-block" aria-labelledby="clubxp-vuma">
+                <div class="clubxp-vuma-head">
+                    <div class="clubxp-vuma-logo" aria-hidden="true">VUMA</div>
+                    <div>
+                        <h2 id="clubxp-vuma" class="clubxp-block__title clubxp-block__title--inline">VUMA</h2>
+                        <p class="clubxp-vuma-tagline">Is an 8-month residential program designed for ex-candidates (those who have just completed their high school) with a goal of discipleship and personal leadership development.</p>
+                    </div>
+                </div>
+                <div class="clubxp-vuma-body">
+                    <p><strong>VUMA</strong> is an acronym for: <strong>Vibrant</strong> in Purpose: calling and career. <strong>Unveiled</strong> in potential: Talent and spiritual gifts. This will partly be achieved through practical ministry in churches and schools during missions. <strong>Mature</strong> in person: Self-awareness. <strong>Anchored</strong> in principle: Spiritual foundation.</p>
+                    <p class="mb-0">VUMA has a strong focus on transformation. At the end of the 8 months, the participants ought to be young adults who understand their identity in Christ and place in society, equipped to face and enjoy their college life.</p>
+                </div>
+            </section>
+
+            <section class="clubxp-block" aria-labelledby="clubxp-camps">
+                <h2 id="clubxp-camps" class="clubxp-block__title">Camps</h2>
+                <figure class="clubxp-camps-hero">
+                    <img src="https://res.cloudinary.com/dqng2ekwm/image/upload/v1774088737/closeup-shot-male-sitting-park-while-holding-bible_ansfw7.jpg" alt="Youth church and camps" width="1200" height="520" loading="lazy" decoding="async">
+                </figure>
+                <p>A camp is a supervised program for teenagers conducted during holiday months. Camping has long been considered one of Christianity&rsquo;s most effective mediums for impacting lives and growing the Church. For decades leaders in all denominations have realized that Christian camping is unsurpassed for igniting faith, instilling character, and implanting ideals in participants, regardless of age or background. Christian camping is also considered by many to be the best means for inspiring an individual to a life of service. As a Youth Ministry, we run several camps each year:</p>
+                <div class="clubxp-camp-grid">
+                    <article class="clubxp-camp-card">
+                        <h3 class="clubxp-camp-card__name">Camp 360</h3>
+                        <p>This unique camp brings together youth from the Chapel sister churches (NC, NCOR, K3C, Karura, Life spring, KCC, Mamlaka) at the end of the Kenyan school year (December). It is designed to be experiential and transformational addressing holistic needs of the youth.</p>
+                    </article>
+                    <article class="clubxp-camp-card">
+                        <h3 class="clubxp-camp-card__name">Moran Camp</h3>
+                        <p>This is a 10 day camp that is designed to offer boys ages 12&ndash;14 years the opportunity to go through the cultural rite of passage (circumcision) within a biblically sound and transformational environment. It offers the boy&rsquo;s life mentors, life skills training and a significant life group of friends.</p>
+                    </article>
+                    <article class="clubxp-camp-card">
+                        <h3 class="clubxp-camp-card__name">Camp T</h3>
+                        <p>Where &lsquo;T&rsquo; is an abbreviation for &ndash; <strong>Transition</strong>: This is a life skill-based fun camp for teenagers, who have just completed their primary education (class eight) and seeks, to equip them for High school.</p>
+                    </article>
+                </div>
+            </section>
+
+            {% if cta_text and cta_url %}
+            <div class="text-center mt-5 pt-3">
+                <a href="{{ cta_url }}" class="btn clubxp-page__cta py-3 px-5">{{ cta_text }}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</article>

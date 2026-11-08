@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in | Nairobi Chapel Ngong Hive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c5282;
+            --primary-dark: #1a365d;
+            --gold: #b8860b;
+            --black: #1a1a1a;
+            --muted: #5c6370;
+            --border: #e2e6ea;
+            --bg: #f4f6f8;
+            --card: #ffffff;
+            --danger-bg: #fff5f5;
+            --danger: #c53030;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Open Sans", system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: var(--black);
+        }
+        .login-shell {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 12px 48px rgba(26, 26, 26, 0.08);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .login-brand {
+            text-align: center;
+            padding: 1.75rem 1.5rem 1.25rem;
+            background: linear-gradient(180deg, #faf9f6 0%, #fff 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .login-brand img {
+            max-height: 72px;
+            width: auto;
+            display: block;
+            margin: 0 auto 0.75rem;
+        }
+        .login-brand .subtitle {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .login-box {
+            padding: 1.75rem 2rem 2rem;
+        }
+        .login-box h1 {
+            margin: 0 0 0.35rem 0;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .login-box .lead {
+            margin: 0 0 1.35rem 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 0.85rem;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.15);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 0.35rem;
+            box-shadow: 0 4px 14px rgba(44, 82, 130, 0.28);
+            transition: opacity 0.2s, box-shadow 0.2s;
+        }
+        .login-box button:hover {
+            opacity: 0.96;
+            box-shadow: 0 6px 18px rgba(44, 82, 130, 0.32);
+        }
+        .login-box .error {
+            background: var(--danger-bg);
+            color: var(--danger);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid rgba(197, 48, 48, 0.2);
+        }
+        .login-footer {
+            margin-top: 1.35rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-footer a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+        .login-footer .admin-link {
+            display: block;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-shell">
+        <div class="login-brand">
+            <img src="{% static 'admin_branding/ncng-hive-logo.svg' %}" alt="Nairobi Chapel Ngong Hive" width="280" height="76">
+            <p class="subtitle">Staff dashboard · content tools</p>
+        </div>
+        <div class="login-box">
+            <h1>Sign in</h1>
+            <p class="lead">Use your staff account for the dashboard and image uploads. For full site settings, use <a href="/admin/">Django Admin</a>.</p>
+            {% if error %}<div class="error">{{ error }}</div>{% endif %}
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required autofocus autocomplete="username">
+                <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                <button type="submit">Sign in</button>
+            </form>
+            <p class="login-footer">
+                <a href="/">Back to website</a>
+                <span class="admin-link"><a href="/admin/">Open Django Admin</a></span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
