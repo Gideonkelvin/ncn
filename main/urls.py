@@ -33,6 +33,8 @@ urlpatterns = [
     path("bible-study", views.generic_page_view, name="bible_study"),
     path("membership", views.generic_page_view, name="membership"),
     path("volunteer", views.generic_page_view, name="volunteer"),
+    path("gallery", views.gallery_list_view, name="gallery"),
+    path("gallery/<slug:slug>/", views.gallery_detail_view, name="gallery_detail"),
     # Catch-all for dynamic pages - MUST be last
     path("<slug:slug>/", views.dynamic_page_catchall, name="dynamic_page"),
     path("<slug:slug>", views.dynamic_page_catchall, name="dynamic_page_no_trailing_slash"),

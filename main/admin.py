@@ -22,6 +22,9 @@ from .models import (
     Event,
     PastoralTeamSection,
     BibleStudyResource,
+    ClubFusionResource,
+    GalleryAlbum,
+    GalleryImage,
     PageCopy,
     ContactPageCopy,
     GivePageCopy,
@@ -813,6 +816,28 @@ class OtherSitePageAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).exclude(slug__in=INDIVIDUAL_PAGE_SLUGS)
+
+
+class GalleryImageInline(admin.TabularInline):
+    model = GalleryImage
+    extra = 1
+    fields = ("image_url", "caption", "order")
+
+
+@admin.register(GalleryAlbum)
+class GalleryAlbumAdmin(admin.ModelAdmin):
+    list_display = ("title", "event_date", "slug", "is_published", "order")
+    list_filter = ("is_published", "event_date")
+    search_fields = ("title", "slug")
+    prepopulated_fields = {"slug": ("title",)}
+    inlines = [GalleryImageInline]
+
+
+@admin.register(ClubFusionResource)
+class ClubFusionResourceAdmin(admin.ModelAdmin):
+    list_display = ("resource_date", "note", "is_active", "order")
+    list_filter = ("is_active",)
+    search_fields = ("note", "document_url")
 
 
 if admin.site.is_registered(Group):

@@ -21,7 +21,7 @@
                     {% if page_copy %}
                     <p class="give-page__eyebrow">{{ page_copy.heading }}</p>
                     <h2 class="give-page__title">{{ page_copy.subheading }}</h2>
-                    <div class="give-page__body">{{ page_copy.body|linebreaks }}</div>
+                    <div class="give-page__body">{{ page_copy.body|safe }}</div>
                     {% else %}
                     <p class="give-page__eyebrow">Partner with us</p>
                     <h2 class="give-page__title">Your giving makes a difference</h2>

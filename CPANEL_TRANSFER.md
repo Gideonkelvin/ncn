@@ -44,7 +44,7 @@ Git and `.gitignore` **do not** include several things that hold your real site 
 
 4. **Database** — Either:
    - Upload **`db.sqlite3`** into the project folder (same path as locally), **or**
-   - Create a MySQL database in cPanel and set **`DATABASE_URL`** in `.env` (see `.env.example`). The project reads this automatically (`dj-database-url` + `mysqlclient`). Then run **`migrate`**.
+   - Create a MySQL database in cPanel and set **`DB_NAME`**, **`DB_USER`**, **`DB_PASSWORD`**, **`DB_HOST`**, and **`DB_PORT`** (default `3306`) in Setup Python App / `.env` (see `.env.example`). Production uses `django.db.backends.mysql` + `mysqlclient`. Then run **`migrate`** when you are ready (do not overwrite existing data casually).
 
 5. **Static files (CSS, JS, theme)** — Templates use Django’s `{% static %}` so assets are served at **`/static/...`** (WhiteNoise). You **must** run **`collectstatic`** on the server or pages will load with no styling. From the folder that contains `manage.py`:
    ```bash

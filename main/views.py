@@ -14,6 +14,7 @@ from django.views.decorators.cache import cache_page
 from .models import (
     BibleStudyResource,
     FounderPurposeBlock,
+    GalleryAlbum,
     HeroSlide,
     PageCopy,
     Product,
@@ -456,7 +457,46 @@ def generic_page_view(request, slug=None):
 
 def dynamic_page_catchall(request, slug):
     """Catch-all view for any dynamic page by slug."""
+    if slug == "gallery":
+        return gallery_list_view(request)
     return generic_page_view(request, slug=slug)
+
+
+@cache_page(60 * 5)
+def gallery_list_view(request):
+    albums = (
+        GalleryAlbum.objects.filter(is_published=True)
+        .prefetch_related("images")
+        .order_by("-event_date", "order", "title")
+    )
+    page = DynamicPage.objects.filter(slug="gallery", is_active=True).first()
+    return render(
+        request,
+        "main/gallery_list.html",
+        {
+            "albums": albums,
+            "page": page,
+            "meta_title": (page.get_meta_title() if page else None) or "Gallery | Nairobi Chapel Ngong Hills",
+            "meta_description": getattr(page, "meta_description", None)
+            or "Browse photos from Nairobi Chapel Ngong Hills events and gatherings.",
+        },
+    )
+
+
+@cache_page(60 * 5)
+def gallery_detail_view(request, slug):
+    album = get_object_or_404(GalleryAlbum, slug=slug, is_published=True)
+    images = album.images.all()
+    return render(
+        request,
+        "main/gallery_detail.html",
+        {
+            "album": album,
+            "images": images,
+            "meta_title": f"{album.title} | Gallery",
+            "meta_description": f"Photos from {album.title} at Nairobi Chapel Ngong Hills.",
+        },
+    )
 
 
 def page_not_found_view(request, exception=None):

@@ -606,3 +606,74 @@ class OtherSitePage(DynamicPage):
         proxy = True
         verbose_name = "Other site pages"
         verbose_name_plural = "Other site pages"
+
+
+# =============================================================================
+# GALLERY & CLUB FUSION RESOURCES
+# =============================================================================
+
+class GalleryAlbum(models.Model):
+    """Photo album restored from the legacy CMS gallery."""
+
+    title = models.CharField(max_length=200)
+    event_date = models.DateField()
+    slug = models.SlugField(max_length=220, unique=True)
+    is_published = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-event_date", "order", "title"]
+        verbose_name = "Gallery album"
+        verbose_name_plural = "Gallery albums"
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def cover_image(self):
+        return self.images.order_by("order", "id").first()
+
+
+class GalleryImage(models.Model):
+    """Single photograph within a GalleryAlbum."""
+
+    album = models.ForeignKey(
+        GalleryAlbum,
+        related_name="images",
+        on_delete=models.CASCADE,
+    )
+    image_url = models.URLField(help_text="Cloudinary or /media/ URL")
+    caption = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = "Gallery image"
+        verbose_name_plural = "Gallery images"
+
+    def __str__(self):
+        return self.caption or f"Image {self.pk} ({self.album_id})"
+
+
+class ClubFusionResource(models.Model):
+    """Downloadable Club Fusion resource row (legacy ClubFusionResource)."""
+
+    resource_date = models.DateField()
+    note = models.CharField(max_length=255)
+    document_url = models.URLField(blank=True, help_text="File URL for download")
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-resource_date", "order", "id"]
+        verbose_name = "Club Fusion · resource"
+        verbose_name_plural = "Club Fusion · resources"
+
+    def __str__(self):
+        return f"{self.resource_date}: {self.note[:50]}"

@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+{% block content %}
+<section class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'gallery' %}">Gallery</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ album.title }}</li>
+        </ol>
+    </nav>
+    <h1 class="display-6 mb-1">{{ album.title }}</h1>
+    <p class="text-muted mb-4">{{ album.event_date|date:"F j, Y" }}</p>
+
+    <div class="row g-2">
+        {% for image in images %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <a href="{{ image.image_url }}" target="_blank" rel="noopener noreferrer" class="d-block">
+                <img src="{{ image.image_url }}" alt="{{ image.caption|default:album.title }}" class="w-100" style="height: 180px; object-fit: cover;">
+            </a>
+            {% if image.caption %}
+            <p class="small text-muted mt-1 mb-0">{{ image.caption }}</p>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-muted mb-0">No photos in this album yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

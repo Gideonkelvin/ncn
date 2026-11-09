@@ -24,6 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME", "")
 CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY", "")
 CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET", "")
+# Also accept CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+if not (CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET):
+    _cloudinary_url = os.environ.get("CLOUDINARY_URL", "").strip()
+    if _cloudinary_url.startswith("cloudinary://"):
+        from urllib.parse import unquote, urlparse
+
+        _parsed = urlparse(_cloudinary_url)
+        CLOUDINARY_CLOUD_NAME = CLOUDINARY_CLOUD_NAME or (_parsed.hostname or "")
+        CLOUDINARY_API_KEY = CLOUDINARY_API_KEY or unquote(_parsed.username or "")
+        CLOUDINARY_API_SECRET = CLOUDINARY_API_SECRET or unquote(_parsed.password or "")
 CLOUDINARY_CONFIGURED = bool(
     CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET
 )
