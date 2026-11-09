@@ -1,25 +1,25 @@
 """
-Restore legacy CMS content from ncn_backup/ into the current main app models.
+Restore legacy CMS content from existing MySQL core_* tables into main models.
 
 Usage:
   python manage.py restore_legacy_cms
   python manage.py restore_legacy_cms --dry-run
-  python manage.py restore_legacy_cms --backup-dir /path/to/ncn_backup
+  python manage.py restore_legacy_cms --skip-media-copy
+  python manage.py restore_legacy_cms --backup-dir /home/xaygcaxz/ncn_backup
 """
 from __future__ import annotations
 
 import os
 import re
 import shutil
-import sqlite3
 from datetime import datetime
 from html import escape
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import urlparse
 
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
+from django.core.management.base import BaseCommand
+from django.db import connection, transaction
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.utils.text import slugify
@@ -69,8 +69,9 @@ def _looks_placeholder(value: str) -> bool:
 
 class Command(BaseCommand):
     help = (
-        "Idempotently restore legacy CMS content from ncn_backup into main models. "
-        "Never deletes records; only creates missing rows and fills blank fields."
+        "Idempotently restore legacy CMS content from existing MySQL core_* tables "
+        "into main models. Never deletes records; only creates missing rows and "
+        "fills blank fields."
     )
 
     def add_arguments(self, parser):
@@ -82,7 +83,10 @@ class Command(BaseCommand):
         parser.add_argument(
             "--backup-dir",
             default="",
-            help="Path to ncn_backup (default: <BASE_DIR>/ncn_backup).",
+            help=(
+                "Optional path containing a media/ folder to copy "
+                "(default: /home/xaygcaxz/ncn_backup, then <BASE_DIR>/ncn_backup)."
+            ),
         )
         parser.add_argument(
             "--skip-media-copy",
@@ -100,15 +104,12 @@ class Command(BaseCommand):
             "media_copied": 0,
         }
         base = Path(settings.BASE_DIR)
-        backup_dir = Path(options["backup_dir"]).resolve() if options["backup_dir"] else (base / "ncn_backup")
-        if not backup_dir.is_dir():
-            raise CommandError(
-                f"Backup directory not found: {backup_dir}. "
-                "Extract the legacy project into ncn_backup/ (with db.sqlite3 and media/)."
-            )
-        db_path = backup_dir / "db.sqlite3"
-        if not db_path.is_file():
-            raise CommandError(f"Legacy database not found: {db_path}")
+        if options["backup_dir"]:
+            backup_dir = Path(options["backup_dir"]).expanduser().resolve()
+        else:
+            cpanel_backup = Path("/home/xaygcaxz/ncn_backup")
+            local_backup = base / "ncn_backup"
+            backup_dir = cpanel_backup if cpanel_backup.is_dir() else local_backup
 
         self.backup_dir = backup_dir
         self.backup_media = backup_dir / "media"
@@ -119,32 +120,30 @@ class Command(BaseCommand):
         if not options["skip_media_copy"]:
             self._copy_media_tree()
 
-        legacy = self._open_legacy(db_path)
-        try:
-            with transaction.atomic():
-                self._restore_site_settings(legacy)
-                self._restore_hero(legacy)
-                self._restore_founder_from_home_about(legacy)
-                self._restore_services(legacy)
-                self._restore_events(legacy)
-                self._restore_pastoral(legacy)
-                self._restore_give(legacy)
-                self._restore_membership(legacy)
-                self._restore_volunteer(legacy)
-                self._restore_egroups(legacy)
-                self._restore_plugin(legacy)
-                self._restore_quest(legacy)
-                self._restore_club_fusion(legacy)
-                self._restore_club_fusion_resources(legacy)
-                self._restore_mens(legacy)
-                self._restore_womens(legacy)
-                self._restore_bible_study(legacy)
-                self._restore_gallery(legacy)
-                self._ensure_gallery_nav_page()
-                if self.dry_run:
-                    transaction.set_rollback(True)
-        finally:
-            legacy.close()
+        # Legacy CMS tables (core_*) already live in the configured MySQL database.
+        legacy = connection
+        with transaction.atomic():
+            self._restore_site_settings(legacy)
+            self._restore_hero(legacy)
+            self._restore_founder_from_home_about(legacy)
+            self._restore_services(legacy)
+            self._restore_events(legacy)
+            self._restore_pastoral(legacy)
+            self._restore_give(legacy)
+            self._restore_membership(legacy)
+            self._restore_volunteer(legacy)
+            self._restore_egroups(legacy)
+            self._restore_plugin(legacy)
+            self._restore_quest(legacy)
+            self._restore_club_fusion(legacy)
+            self._restore_club_fusion_resources(legacy)
+            self._restore_mens(legacy)
+            self._restore_womens(legacy)
+            self._restore_bible_study(legacy)
+            self._restore_gallery(legacy)
+            self._ensure_gallery_nav_page()
+            if self.dry_run:
+                transaction.set_rollback(True)
 
         self._print_summary()
 
@@ -160,24 +159,31 @@ class Command(BaseCommand):
             return (parsed.hostname or "").strip()
         return ""
 
-    def _open_legacy(self, db_path: Path) -> sqlite3.Connection:
-        con = sqlite3.connect(f"file:{db_path.as_posix()}?mode=ro", uri=True)
-        con.row_factory = sqlite3.Row
-        return con
+    def _table_rows(self, con, table: str) -> list[dict]:
+        available_tables = set(con.introspection.table_names())
 
-    def _table_rows(self, con: sqlite3.Connection, table: str) -> list[dict]:
-        exists = con.execute(
-            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
-            (table,),
-        ).fetchone()
-        if not exists:
-            self.stats["unresolved"].append(f"Missing legacy table: {table}")
+        if table not in available_tables:
+            self.stats["unresolved"].append(
+                f"Missing legacy MySQL table: {table}"
+            )
             return []
-        return [dict(r) for r in con.execute(f"SELECT * FROM {table}")]
+
+        quoted_table = con.ops.quote_name(table)
+
+        with con.cursor() as cursor:
+            cursor.execute(f"SELECT * FROM {quoted_table}")
+            columns = [column[0] for column in cursor.description]
+            return [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
 
     def _copy_media_tree(self):
         if not self.backup_media.is_dir():
-            self.stats["unresolved"].append(f"No backup media directory at {self.backup_media}")
+            self.stats["unresolved"].append(
+                f"No backup media directory at {self.backup_media} "
+                "(continuing with MySQL content restore only)"
+            )
             return
         for src in self.backup_media.rglob("*"):
             if not src.is_file():
